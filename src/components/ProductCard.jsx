@@ -1,0 +1,63 @@
+import { useState } from 'react'
+import { motion } from 'motion/react'
+import { Button, Label } from 'semantic-ui-react'
+import { CURRENCY } from '../data/products'
+import { ArrowIcon } from './Icons'
+
+/**
+ * Editorial product entry: photo inside an organic mask, oversized index
+ * number, price stamp and an order button. `variant` changes the layout
+ * (feature | tall | wide | square) so the catalog never looks like a grid
+ * of identical cards.
+ */
+export default function ProductCard({ product, index, variant = 'square', onOrder, ref }) {
+  const [loaded, setLoaded] = useState(false)
+  const number = String(index + 1).padStart(2, '0')
+
+  return (
+    <motion.article
+      ref={ref}
+      className={`product product--${variant}`}
+      layout
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.96 }}
+      viewport={{ once: true, margin: '-10% 0px' }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div className={`product__media ${loaded ? 'is-loaded' : ''}`}>
+        <img
+          src={product.image}
+          alt={product.name}
+          loading="lazy"
+          decoding="async"
+          onLoad={() => setLoaded(true)}
+          onError={() => setLoaded(true)}
+        />
+        <span className="product__price">
+          <small>desde</small>
+          {CURRENCY}
+          {product.price}
+        </span>
+      </div>
+
+      <div className="product__body">
+        <span className="product__index">{number}</span>
+        <p className="product__tagline">{product.tagline}</p>
+        <h3 className="product__name">{product.name}</h3>
+        <p className="product__desc">{product.description}</p>
+        <div className="product__meta">
+          {product.tags.map((tag) => (
+            <Label key={tag} className="ck-tag">
+              {tag}
+            </Label>
+          ))}
+          <span className="product__unit">{product.unit}</span>
+        </div>
+        <Button className="ck-btn ck-btn--link" onClick={() => onOrder(product.name)}>
+          Pedir <ArrowIcon />
+        </Button>
+      </div>
+    </motion.article>
+  )
+}

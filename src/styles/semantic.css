@@ -1,0 +1,441 @@
+/*
+ * Semantic UI React components, restyled for La Cakería.
+ * Every override is scoped to our own class (ck-*) so the library keeps
+ * working but never looks like its default theme.
+ */
+
+/* ---------- Buttons ---------- */
+.ui.button.ck-btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  min-height: 48px;
+  margin: 0;
+  padding: 0.95em 1.65em;
+  border-radius: 999px;
+  border: 1.5px solid transparent;
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1;
+  text-transform: none;
+  box-shadow: none;
+  transition:
+    transform 0.45s var(--ease),
+    color 0.35s var(--ease),
+    background-color 0.35s var(--ease),
+    border-color 0.35s var(--ease),
+    box-shadow 0.45s var(--ease);
+}
+
+/* liquid fill that rises from the bottom on hover */
+.ui.button.ck-btn::before {
+  content: '';
+  position: absolute;
+  inset: auto -10% -10% -10%;
+  height: 0;
+  z-index: -1;
+  border-radius: 50% 50% 0 0;
+  background: var(--fill, var(--pink));
+  transition: height 0.55s var(--ease);
+}
+
+.ui.button.ck-btn:hover::before,
+.ui.button.ck-btn:focus-visible::before {
+  height: 140%;
+}
+
+.ui.button.ck-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px -18px rgb(92 1 1 / 0.7);
+}
+
+.ui.button.ck-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.ui.button.ck-btn svg {
+  transition: transform 0.45s var(--ease);
+}
+
+.ui.button.ck-btn:hover svg {
+  transform: translateX(4px);
+}
+
+.ui.button.ck-btn--lg {
+  min-height: 56px;
+  padding: 1.1em 2em;
+  font-size: 1.05rem;
+}
+
+.ui.button.ck-btn--cream {
+  background: var(--cream);
+  color: var(--red-dark);
+  --fill: var(--pink);
+}
+
+.ui.button.ck-btn--red {
+  background: var(--red);
+  color: var(--cream);
+  --fill: var(--red-dark);
+}
+
+.ui.button.ck-btn--red:hover,
+.ui.button.ck-btn--red:focus {
+  background: var(--red);
+  color: var(--cream);
+}
+
+.ui.button.ck-btn--dark {
+  background: var(--red-dark);
+  color: var(--cream);
+  --fill: var(--red);
+}
+
+.ui.button.ck-btn--dark:hover,
+.ui.button.ck-btn--dark:focus {
+  background: var(--red-dark);
+  color: var(--cream);
+}
+
+.ui.button.ck-btn--cream:hover,
+.ui.button.ck-btn--cream:focus {
+  background: var(--cream);
+  color: var(--red-dark);
+}
+
+.ui.button.ck-btn--outline,
+.ui.button.ck-btn--outline:focus {
+  background: transparent;
+  color: var(--red-dark);
+  border-color: currentColor;
+  --fill: var(--red-dark);
+}
+
+.ui.button.ck-btn--outline:hover {
+  background: transparent;
+  color: var(--cream);
+}
+
+.ui.button.ck-btn--link,
+.ui.button.ck-btn--link:hover,
+.ui.button.ck-btn--link:focus {
+  min-height: 44px;
+  padding: 0.6em 0;
+  background: transparent;
+  color: var(--red);
+  box-shadow: none;
+}
+
+.ui.button.ck-btn--link::before {
+  inset: auto 0 0.35em 0;
+  height: 1.5px;
+  border-radius: 0;
+  background: currentColor;
+  transform: scaleX(0.3);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease);
+}
+
+.ui.button.ck-btn--link:hover::before {
+  height: 1.5px;
+  transform: scaleX(1);
+}
+
+.ui.button.ck-btn--link:hover {
+  transform: none;
+}
+
+/* round icon button */
+.ck-round {
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    transform 0.45s var(--ease),
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.ck-round:hover {
+  transform: rotate(90deg);
+}
+
+/* ---------- Chips (customizer) ---------- */
+.ui.button.ck-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  min-height: 44px;
+  margin: 0;
+  padding: 0.7em 1.15em;
+  border-radius: 999px;
+  border: 1.5px solid var(--line-light);
+  background: transparent;
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition:
+    background-color 0.35s var(--ease),
+    color 0.35s var(--ease),
+    border-color 0.35s var(--ease),
+    transform 0.35s var(--ease);
+}
+
+.ui.button.ck-chip:hover,
+.ui.button.ck-chip:focus {
+  background: rgb(251 244 208 / 0.08);
+  color: var(--cream);
+  border-color: var(--pink);
+}
+
+.ui.button.ck-chip.is-active,
+.ui.button.ck-chip.is-active:hover {
+  background: var(--cream);
+  border-color: var(--cream);
+  color: var(--red-dark);
+}
+
+.ui.button.ck-chip:active {
+  transform: scale(0.96);
+}
+
+.ck-chip__swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1.5px rgb(251 244 208 / 0.55);
+}
+
+/* ---------- Labels ---------- */
+.ui.label.ck-tag {
+  margin: 0;
+  padding: 0.45em 0.95em;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Secondary menus ---------- */
+.ui.secondary.menu.ck-filter {
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  min-height: 0;
+}
+
+.ui.secondary.menu.ck-filter .item {
+  margin: 0;
+  padding: 0.7em 1.2em;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 600;
+  align-self: auto;
+  transition:
+    background-color 0.3s var(--ease),
+    color 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+}
+
+.ui.secondary.menu.ck-filter .item:hover {
+  background: color-mix(in oklab, var(--pink) 35%, transparent);
+  color: var(--ink);
+}
+
+.ui.secondary.menu.ck-filter .active.item,
+.ui.secondary.menu.ck-filter .active.item:hover {
+  background: var(--red-dark);
+  border-color: var(--red-dark);
+  color: var(--cream);
+  border-radius: 999px;
+}
+
+/* ---------- Modal + form ---------- */
+.ui.dimmer.modals {
+  background: rgb(92 1 1 / 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.ui.modal.ck-modal {
+  overflow: hidden;
+  border-radius: 32px;
+  background: var(--cream);
+  box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.5);
+}
+
+.ui.modal.ck-modal > .header,
+.ui.modal.ck-modal > .content,
+.ui.modal.ck-modal > .actions {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.ui.modal.ck-modal > .header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 28px 32px 18px;
+  border-bottom: 1px dashed var(--line);
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.ui.modal.ck-modal > .header svg {
+  color: var(--red);
+  flex: none;
+}
+
+.ui.modal.ck-modal > .content {
+  padding: 24px 32px;
+}
+
+.ui.modal.ck-modal > .actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 18px 32px 26px;
+  border-top: 1px dashed var(--line);
+  background: var(--cream-warm);
+}
+
+.ui.modal.ck-modal > .actions > .button {
+  margin: 0;
+}
+
+.ui.modal.ck-modal > .close {
+  top: 20px;
+  right: 18px;
+  color: var(--red-dark);
+  opacity: 0.7;
+}
+
+.ck-modal__lead {
+  margin-bottom: 16px;
+  font-size: 1.02rem;
+}
+
+.ck-modal__summary {
+  margin: 0;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: var(--cream-warm);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  white-space: pre-wrap;
+  color: var(--ink);
+}
+
+.ui.form.ck-form .field > label {
+  margin-bottom: 6px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.ui.form.ck-form .field .ui.input input,
+.ui.form.ck-form textarea,
+.ui.form.ck-form .ui.selection.dropdown {
+  min-height: 48px;
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  background: #fffdf3;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+.ui.form.ck-form .ui.selection.dropdown {
+  display: flex;
+  align-items: center;
+}
+
+.ui.form.ck-form .ui.selection.active.dropdown,
+.ui.form.ck-form .ui.selection.active.dropdown .menu {
+  border-color: var(--red);
+}
+
+.ui.form.ck-form .ui.selection.active.dropdown {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.ui.form.ck-form .ui.selection.dropdown .menu {
+  border-radius: 0 0 16px 16px;
+  background: #fffdf3;
+}
+
+.ui.form.ck-form .ui.selection.dropdown .menu > .item {
+  color: var(--ink);
+  border-top-color: var(--line);
+}
+
+.ui.form.ck-form .ui.selection.dropdown .menu > .selected.item,
+.ui.form.ck-form .ui.selection.dropdown .menu > .item:hover {
+  background: color-mix(in oklab, var(--pink) 30%, transparent);
+}
+
+.ui.form.ck-form .field .ui.input input:focus,
+.ui.form.ck-form textarea:focus {
+  border-color: var(--red);
+  border-radius: 16px;
+}
+
+.ui.form.ck-form .field.required > label::after {
+  color: var(--red);
+}
+
+.ui.form.ck-form .field.error .ui.input input {
+  border-color: var(--red);
+  background: color-mix(in oklab, var(--pink) 18%, #fffdf3);
+  color: var(--ink);
+}
+
+.ck-form__error {
+  color: var(--red);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 767px) {
+  .ui.modal.ck-modal {
+    width: calc(100% - 24px);
+    margin: 0;
+  }
+
+  .ui.modal.ck-modal > .header,
+  .ui.modal.ck-modal > .content,
+  .ui.modal.ck-modal > .actions {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .ui.modal.ck-modal > .actions > .button {
+    flex: 1 1 100%;
+    margin: 0 !important;
+  }
+}

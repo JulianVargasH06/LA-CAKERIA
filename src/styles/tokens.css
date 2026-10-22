@@ -1,0 +1,29 @@
+/* La Cakería — design tokens. Palette from the brand reference (do not add hues). */
+:root {
+  --red: #b91d2d;
+  --red-dark: #5c0101;
+  --pink: #ffa29d;
+  --cream: #fbf4d0;
+  --caramel: #e5c48d;
+
+  /* tints derived only from the palette */
+  --red-deep: color-mix(in oklab, var(--red) 70%, var(--red-dark));
+  --red-glow: color-mix(in oklab, var(--red) 82%, var(--pink));
+  --cream-warm: color-mix(in oklab, var(--cream) 78%, var(--caramel));
+  --ink: var(--red-dark);
+  --ink-soft: color-mix(in oklab, var(--red-dark) 74%, var(--cream));
+  --line: color-mix(in oklab, var(--red-dark) 18%, transparent);
+  --line-light: color-mix(in oklab, var(--cream) 26%, transparent);
+
+  --font-display: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+
+  --gutter: clamp(16px, 4vw, 64px);
+  --frame: clamp(8px, 1.4vw, 22px);
+  --nav-h: clamp(64px, 9vh, 84px);
+  --radius-lg: clamp(28px, 4vw, 64px);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --shadow-soft: 0 30px 60px -28px rgb(92 1 1 / 0.45);
+
+  color-scheme: light;
+}
