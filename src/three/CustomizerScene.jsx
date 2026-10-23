@@ -21,8 +21,11 @@ function Turntable({ cake, animate, mobile }) {
   )
 }
 
-/** Interactive cake for the customizer: drag to rotate, materials update live. */
-export default function CustomizerScene({ cake, animate = true, active = true, mobile = false }) {
+/**
+ * Cake for the customizer: drag to rotate, materials update live.
+ * `interactive={false}` is the home page preview (turntable only, no controls).
+ */
+export default function CustomizerScene({ cake, animate = true, active = true, mobile = false, interactive = true }) {
   return (
     <Canvas
       className="cake-scene"
@@ -47,14 +50,16 @@ export default function CustomizerScene({ cake, animate = true, active = true, m
         <planeGeometry />
         <meshBasicMaterial map={getShadowTexture()} transparent depthWrite={false} opacity={0.6} />
       </mesh>
-      <OrbitControls
-        enablePan={false}
-        enableZoom={false}
-        minPolarAngle={Math.PI / 4}
-        maxPolarAngle={Math.PI / 2.05}
-        enableRotate={!mobile}
-        rotateSpeed={0.6}
-      />
+      {interactive && (
+        <OrbitControls
+          enablePan={false}
+          enableZoom={false}
+          minPolarAngle={Math.PI / 4}
+          maxPolarAngle={Math.PI / 2.05}
+          enableRotate={!mobile}
+          rotateSpeed={0.6}
+        />
+      )}
     </Canvas>
   )
 }

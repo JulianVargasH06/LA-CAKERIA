@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import { Button, Icon } from 'semantic-ui-react'
 import { NAV_LINKS, SITE } from '../data/site'
 import { ArrowIcon } from './Icons'
@@ -65,11 +66,18 @@ export default function Footer({ onOrder }) {
 
         <div className="footer__bottom">
           <nav aria-label="Pie de página">
-            {NAV_LINKS.map((l) => (
-              <a key={l.href} href={l.href}>
-                {l.label}
-              </a>
-            ))}
+            <Link to="/">Inicio</Link>
+            {NAV_LINKS.map((l) =>
+              l.to ? (
+                <Link key={l.label} to={l.to}>
+                  {l.label}
+                </Link>
+              ) : (
+                <a key={l.label} href={l.href}>
+                  {l.label}
+                </a>
+              ),
+            )}
           </nav>
           <p>© {year} {SITE.name} — {SITE.slogan}</p>
         </div>

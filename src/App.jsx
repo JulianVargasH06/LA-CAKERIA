@@ -1,14 +1,22 @@
-import { useCallback, useState } from 'react'
+import { lazy, Suspense, useCallback, useState } from 'react'
 import { MotionConfig } from 'motion/react'
-import CakeCustomizer from './components/CakeCustomizer'
+import { Route, Routes } from 'react-router'
 import Footer from './components/Footer'
-import Hero from './components/Hero'
-import Marquee from './components/Marquee'
 import Navbar from './components/Navbar'
 import OrderModal from './components/OrderModal'
-import OurStory from './components/OurStory'
-import ProductCatalog from './components/ProductCatalog'
+import PageLoader from './components/PageLoader'
+import ScrollManager from './components/ScrollManager'
+import { OrderContext } from './context/order'
+import HomePage from './pages/HomePage'
 
+// Secondary pages are code-split: the home page (and its 3D hero) loads first.
+const MenuPage = lazy(() => import('./pages/MenuPage'))
+const ProductPage = lazy(() => import('./pages/ProductPage'))
+const PersonalizePage = lazy(() => import('./pages/PersonalizePage'))
+const AboutPage = lazy(() => import('./pages/AboutPage'))
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
+
+/** Site layout shared by every route: navbar, page content, footer and the order modal. */
 export default function App() {
   const [order, setOrder] = useState({ open: false, product: null, details: null })
 
@@ -20,19 +28,27 @@ export default function App() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <a className="skip-link" href="#menu">
-        Saltar al menú
-      </a>
-      <Navbar onOrder={openOrder} />
-      <main>
-        <Hero onOrder={openOrder} />
-        <Marquee />
-        <ProductCatalog onOrder={openOrder} />
-        <CakeCustomizer onOrder={openOrder} />
-        <OurStory />
-      </main>
-      <Footer onOrder={openOrder} />
-      <OrderModal {...order} onClose={closeOrder} />
+      <OrderContext value={openOrder}>
+        <ScrollManager />
+        <a className="skip-link" href="#contenido">
+          Saltar al contenido
+        </a>
+        <Navbar onOrder={openOrder} />
+        <main id="contenido">
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route index element={<HomePage />} />
+              <Route path="menu" element={<MenuPage />} />
+              <Route path="menu/:productId" element={<ProductPage />} />
+              <Route path="personaliza" element={<PersonalizePage />} />
+              <Route path="nosotros" element={<AboutPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </Suspense>
+        </main>
+        <Footer onOrder={openOrder} />
+        <OrderModal {...order} onClose={closeOrder} />
+      </OrderContext>
     </MotionConfig>
   )
 }

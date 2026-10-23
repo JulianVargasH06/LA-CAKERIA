@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button, Dropdown, Form, Input, Modal, TextArea } from 'semantic-ui-react'
-import { PRODUCTS } from '../data/products'
+import { ORDER_SIZES, PRODUCTS } from '../data/products'
 import { SITE } from '../data/site'
 import { FlowerIcon } from './Icons'
 
@@ -9,12 +9,7 @@ const PRODUCT_OPTIONS = [
   { key: 'custom', value: 'Torta personalizada', text: 'Torta personalizada' },
 ]
 
-const SIZE_OPTIONS = [
-  { key: 's', value: '6 porciones', text: '6 porciones' },
-  { key: 'm', value: '8 porciones', text: '8 porciones' },
-  { key: 'l', value: '12 porciones', text: '12 porciones' },
-  { key: 'xl', value: '20 porciones', text: '20 porciones' },
-]
+const SIZE_OPTIONS = ORDER_SIZES.map((size) => ({ key: size, value: size, text: size }))
 
 const EMPTY = { name: '', phone: '', date: '', size: '8 porciones', notes: '' }
 

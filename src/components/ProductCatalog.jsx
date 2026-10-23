@@ -1,57 +1,56 @@
-import { useState } from 'react'
-import { AnimatePresence } from 'motion/react'
-import { Menu } from 'semantic-ui-react'
-import { CATEGORIES, PRODUCTS } from '../data/products'
+import { Link } from 'react-router'
+import { Button } from 'semantic-ui-react'
+import { FEATURED_PRODUCTS, PRODUCTS } from '../data/products'
+import { ArrowIcon, FlowerIcon } from './Icons'
 import ProductCard from './ProductCard'
 import Reveal from './Reveal'
 
-const VARIANTS = ['feature', 'tall', 'square', 'square', 'wide']
+const VARIANTS = ['feature', 'tall', 'square']
 
+/** Home page: featured products (same data source as /menu) + link to the full menu. */
 export default function ProductCatalog({ onOrder }) {
-  const [category, setCategory] = useState('all')
-  const visible = PRODUCTS.filter((p) => category === 'all' || p.category === category)
-
   return (
-    <section className="catalog section" id="menu" aria-labelledby="catalog-title">
+    <section className="catalog section" id="destacados" aria-labelledby="catalog-title">
       <div className="section__inner">
         <header className="catalog__head">
-          <Reveal as="p" className="eyebrow">El menú — 2026</Reveal>
+          <Reveal as="p" className="eyebrow">Favoritos de la casa</Reveal>
           <Reveal as="h2" className="display catalog__title" id="catalog-title" delay={0.05}>
             Hecho para <em>antojarse</em>
           </Reveal>
           <Reveal className="catalog__intro" delay={0.1}>
             <p>
-              Cinco creaciones, horneadas en pequeños lotes. Precios de referencia — consulta
-              tamaños y disponibilidad al hacer tu pedido.
+              Una selección de lo que más sale del horno. Horneamos en pequeños lotes; los precios
+              son de referencia y se confirman al hacer tu pedido.
             </p>
-            <Menu secondary className="ck-filter" aria-label="Filtrar productos">
-              {CATEGORIES.map((c) => (
-                <Menu.Item
-                  key={c.key}
-                  name={c.label}
-                  active={category === c.key}
-                  onClick={() => setCategory(c.key)}
-                />
-              ))}
-            </Menu>
+            <Button as={Link} to="/menu" className="ck-btn ck-btn--outline">
+              Ver todo el menú <ArrowIcon />
+            </Button>
           </Reveal>
         </header>
 
-        <div className={`catalog__grid ${category !== 'all' ? 'is-filtered' : ''}`}>
-          <AnimatePresence mode="popLayout">
-            {visible.map((product) => {
-              const index = PRODUCTS.indexOf(product)
-              return (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  index={index}
-                  variant={category === 'all' ? VARIANTS[index] : 'square'}
-                  onOrder={onOrder}
-                />
-              )
-            })}
-          </AnimatePresence>
+        <div className="catalog__grid">
+          {FEATURED_PRODUCTS.map((product, i) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              index={PRODUCTS.indexOf(product)}
+              variant={VARIANTS[i % VARIANTS.length]}
+              onOrder={onOrder}
+            />
+          ))}
+
+          <Reveal className="catalog__more">
+            <Link to="/menu" className="catalog__more-link">
+              <FlowerIcon size={26} />
+              <span className="catalog__more-count">{PRODUCTS.length}</span>
+              <span className="catalog__more-label">
+                creaciones en el menú completo
+                <b>
+                  Ver todo el menú <ArrowIcon />
+                </b>
+              </span>
+            </Link>
+          </Reveal>
         </div>
       </div>
     </section>

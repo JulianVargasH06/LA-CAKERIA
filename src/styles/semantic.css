@@ -245,6 +245,9 @@
 
 .ui.secondary.menu.ck-filter .item {
   margin: 0;
+  background: transparent;
+  font-size: 1rem;
+  cursor: pointer;
   padding: 0.7em 1.2em;
   border: 1.5px solid var(--line);
   border-radius: 999px;
@@ -438,4 +441,75 @@
     flex: 1 1 100%;
     margin: 0 !important;
   }
+}
+
+/* ---------- Search input + sort dropdown (/menu) ---------- */
+.ui.input.ck-search {
+  min-width: min(280px, 100%);
+}
+
+.ui.input.ck-search > input {
+  min-height: 48px;
+  padding-left: 2.9em !important;
+  border: 1.5px solid var(--line);
+  border-radius: 999px !important;
+  background: #fffdf3;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+}
+
+.ui.input.ck-search > input:focus {
+  border-color: var(--red);
+}
+
+.ui.input.ck-search > .icon {
+  left: 0.4em !important;
+  color: var(--red);
+  opacity: 0.9;
+}
+
+.ui.selection.dropdown.ck-sort {
+  display: flex;
+  align-items: center;
+  min-width: 230px;
+  min-height: 48px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: #fffdf3;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.ui.selection.dropdown.ck-sort > .dropdown.icon {
+  top: 50%;
+  right: 1.1em;
+  padding: 0;
+  margin: 0;
+  transform: translateY(-50%);
+  opacity: 0.7;
+}
+
+.ui.selection.active.dropdown.ck-sort {
+  border-color: var(--red);
+  border-radius: 24px 24px 0 0;
+}
+
+.ui.selection.dropdown.ck-sort .menu {
+  border-color: var(--red);
+  border-radius: 0 0 24px 24px;
+  background: #fffdf3;
+}
+
+.ui.selection.dropdown.ck-sort .menu > .item {
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 500;
+  border-top-color: var(--line);
+}
+
+.ui.selection.dropdown.ck-sort .menu > .item:hover,
+.ui.selection.dropdown.ck-sort .menu > .selected.item {
+  background: color-mix(in oklab, var(--pink) 30%, transparent);
 }

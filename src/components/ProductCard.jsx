@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'motion/react'
+import { Link } from 'react-router'
 import { Button, Label } from 'semantic-ui-react'
 import { CURRENCY } from '../data/products'
 import { ArrowIcon } from './Icons'
@@ -10,7 +11,8 @@ import { ArrowIcon } from './Icons'
  * (feature | tall | wide | square) so the catalog never looks like a grid
  * of identical cards.
  */
-export default function ProductCard({ product, index, variant = 'square', onOrder, ref }) {
+export default function ProductCard({ product, index, variant = 'square', onOrder, headingLevel = 3, ref }) {
+  const HeadingTag = `h${headingLevel}`
   const [loaded, setLoaded] = useState(false)
   const number = String(index + 1).padStart(2, '0')
 
@@ -25,7 +27,13 @@ export default function ProductCard({ product, index, variant = 'square', onOrde
       viewport={{ once: true, margin: '-10% 0px' }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className={`product__media ${loaded ? 'is-loaded' : ''}`}>
+      <Link
+        to={`/menu/${product.id}`}
+        className={`product__media ${loaded ? 'is-loaded' : ''}`}
+        // duplicate of the title link for pointer users; skipped by keyboard / screen readers
+        tabIndex={-1}
+        aria-hidden="true"
+      >
         <img
           src={product.image}
           alt={product.name}
@@ -39,12 +47,14 @@ export default function ProductCard({ product, index, variant = 'square', onOrde
           {CURRENCY}
           {product.price}
         </span>
-      </div>
+      </Link>
 
       <div className="product__body">
         <span className="product__index">{number}</span>
         <p className="product__tagline">{product.tagline}</p>
-        <h3 className="product__name">{product.name}</h3>
+        <HeadingTag className="product__name">
+          <Link to={`/menu/${product.id}`}>{product.name}</Link>
+        </HeadingTag>
         <p className="product__desc">{product.description}</p>
         <div className="product__meta">
           {product.tags.map((tag) => (
@@ -54,9 +64,14 @@ export default function ProductCard({ product, index, variant = 'square', onOrde
           ))}
           <span className="product__unit">{product.unit}</span>
         </div>
-        <Button className="ck-btn ck-btn--link" onClick={() => onOrder(product.name)}>
-          Pedir <ArrowIcon />
-        </Button>
+        <div className="product__actions">
+          <Button as={Link} to={`/menu/${product.id}`} className="ck-btn ck-btn--link">
+            Ver detalle
+          </Button>
+          <Button className="ck-btn ck-btn--link" onClick={() => onOrder(product.name)}>
+            Pedir <ArrowIcon />
+          </Button>
+        </div>
       </div>
     </motion.article>
   )

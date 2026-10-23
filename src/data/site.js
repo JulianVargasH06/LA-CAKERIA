@@ -26,9 +26,11 @@ export const SITE = {
     'https://images.unsplash.com/photo-1513844316321-dd2466411c4c?auto=format&fit=crop&w=700&q=75',
 }
 
+// `to` = page route; `href` = in-page anchor (the contact block lives in the
+// shared footer, so "#contacto" works on every page).
 export const NAV_LINKS = [
-  { href: '#menu', label: 'Menú' },
-  { href: '#personaliza', label: 'Personaliza' },
-  { href: '#historia', label: 'Nuestra historia' },
+  { to: '/menu', label: 'Menú' },
+  { to: '/personaliza', label: 'Personaliza' },
+  { to: '/nosotros', label: 'Nuestra historia' },
   { href: '#contacto', label: 'Contacto' },
 ]

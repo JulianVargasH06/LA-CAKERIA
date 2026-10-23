@@ -26,6 +26,7 @@ export const PRODUCTS = [
     price: 42,
     unit: 'torta 8 porciones',
     category: 'tortas',
+    featured: true,
     image: unsplash('1761315631665-cf6220061f20', 1200),
     tags: ['Cacao 70 %', 'Frambuesa'],
   },
@@ -37,6 +38,7 @@ export const PRODUCTS = [
     price: 38,
     unit: 'torta 8 porciones',
     category: 'tortas',
+    featured: true,
     image: unsplash('1688153009623-0d9a3ba1b105'),
     tags: ['Queso crema'],
   },
@@ -48,6 +50,7 @@ export const PRODUCTS = [
     price: 36,
     unit: 'torta 10 porciones',
     category: 'tortas',
+    featured: true,
     image: unsplash('1611497438246-dcbb383de3c4'),
     tags: ['Horneado lento'],
   },
@@ -74,3 +77,13 @@ export const PRODUCTS = [
     tags: ['Fruta fresca'],
   },
 ]
+
+/** Products shown on the home page ("featured: true" above). */
+export const FEATURED_PRODUCTS = PRODUCTS.filter((p) => p.featured)
+
+export const getProduct = (id) => PRODUCTS.find((p) => p.id === id)
+
+export const categoryLabel = (key) => CATEGORIES.find((c) => c.key === key)?.label ?? key
+
+/** Portion sizes offered in the order form (sample values — edit freely). */
+export const ORDER_SIZES = ['6 porciones', '8 porciones', '12 porciones', '20 porciones']

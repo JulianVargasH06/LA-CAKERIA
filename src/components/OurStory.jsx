@@ -1,15 +1,11 @@
 import { motion, useScroll, useTransform } from 'motion/react'
 import { useRef } from 'react'
+import { Link } from 'react-router'
+import { Button } from 'semantic-ui-react'
 import { SITE } from '../data/site'
 import CircleBadge from './CircleBadge'
+import { ArrowIcon } from './Icons'
 import Reveal from './Reveal'
-
-// Placeholder figures — edit to match the real bakery.
-const FACTS = [
-  { value: '2014', label: 'primer horno encendido' },
-  { value: '36 h', label: 'de reposo en nuestras masas' },
-  { value: '100 %', label: 'hecho a mano, en casa' },
-]
 
 export default function OurStory() {
   const ref = useRef(null)
@@ -32,7 +28,7 @@ export default function OurStory() {
           <motion.div className="story__photo story__photo--small" style={{ y: smallY }}>
             <img src={SITE.storyImageAlt} alt="Panes y masas recién horneadas" loading="lazy" />
           </motion.div>
-          <CircleBadge className="story__badge" text="Desde 2014 · Pastelería de autor · " />
+          <CircleBadge className="story__badge" text="Hecho a mano · Pastelería de autor · " />
         </div>
 
         <div className="story__text">
@@ -49,14 +45,11 @@ export default function OurStory() {
             torta se monta a mano la misma mañana en que sale por la puerta. Sin atajos, sin
             conservantes — solo oficio.
           </Reveal>
-          <ul className="story__facts">
-            {FACTS.map((f, i) => (
-              <Reveal as="li" key={f.label} delay={0.2 + i * 0.08}>
-                <strong>{f.value}</strong>
-                <span>{f.label}</span>
-              </Reveal>
-            ))}
-          </ul>
+          <Reveal delay={0.2}>
+            <Button as={Link} to="/nosotros" className="ck-btn ck-btn--dark">
+              Conoce nuestra historia <ArrowIcon />
+            </Button>
+          </Reveal>
         </div>
       </div>
     </section>
