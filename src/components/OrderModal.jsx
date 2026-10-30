@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Button, Dropdown, Form, Input, Modal, TextArea } from 'semantic-ui-react'
-import { ORDER_SIZES, PRODUCTS } from '../data/products'
+import { cartTotal, itemPrice, itemSize, useCart } from '../context/cart'
+import { CURRENCY, ORDER_SIZES, PRODUCTS } from '../data/products'
 import { SITE } from '../data/site'
 import { FlowerIcon } from './Icons'
 
@@ -17,17 +18,29 @@ const EMPTY = { name: '', phone: '', date: '', size: '8 porciones', notes: '' }
  * Order request form. It does NOT send anything to a server: on submit it
  * shows a summary and offers to continue by e-mail / WhatsApp with the
  * request pre-filled (contact data from src/data/site.js).
+ *
+ * `cart` = check out the cart items; otherwise a general request where the
+ * product and size are picked in the form.
  */
-export default function OrderModal({ open, onClose, product, details }) {
+export default function OrderModal({ open, onClose, product, details, cart }) {
   return (
     <Modal open={open} onClose={onClose} size="small" className="ck-modal" closeIcon>
       {/* remount the form each time the modal opens with a new product */}
-      {open && <OrderForm key={`${product}|${details}`} product={product} details={details} onClose={onClose} />}
+      {open && (
+        <OrderForm key={`${cart}|${product}|${details}`} product={product} details={details} fromCart={cart} onClose={onClose} />
+      )}
     </Modal>
   )
 }
 
-function OrderForm({ product, details, onClose }) {
+const cartLine = (item) =>
+  `• ${item.name} (${itemSize(item)}) — ${CURRENCY}${itemPrice(item)}${item.details ? `
+  ${item.details}` : ''}`
+
+function OrderForm({ product, details, fromCart, onClose }) {
+  const cart = useCart()
+  const items = fromCart ? cart.items : []
+  const total = cartTotal(items)
   const [values, setValues] = useState({
     ...EMPTY,
     product: product || PRODUCTS[0].name,
@@ -40,7 +53,9 @@ function OrderForm({ product, details, onClose }) {
   const valid = values.name.trim() && values.phone.trim() && values.date
 
   const summary = [
-    `Pedido: ${values.product} (${values.size})`,
+    ...(fromCart
+      ? ['Pedido:', ...items.map(cartLine), `Total estimado: ${CURRENCY}${total}`]
+      : [`Pedido: ${values.product} (${values.size})`]),
     `Fecha: ${values.date}`,
     `Nombre: ${values.name}`,
     `Teléfono: ${values.phone}`,
@@ -84,9 +99,21 @@ function OrderForm({ product, details, onClose }) {
           >
             Enviar por WhatsApp
           </Button>
-          <Button className="ck-btn ck-btn--link" onClick={onClose}>
-            Cerrar
-          </Button>
+          {fromCart ? (
+            <Button
+              className="ck-btn ck-btn--link"
+              onClick={() => {
+                cart.clear()
+                onClose()
+              }}
+            >
+              Vaciar carrito y cerrar
+            </Button>
+          ) : (
+            <Button className="ck-btn ck-btn--link" onClick={onClose}>
+              Cerrar
+            </Button>
+          )}
         </Modal.Actions>
       </>
     )
@@ -95,25 +122,52 @@ function OrderForm({ product, details, onClose }) {
   return (
     <>
       <Modal.Header>
-        <FlowerIcon size={20} /> Solicitar pedido
+        <FlowerIcon size={20} /> {fromCart ? 'Finalizar pedido' : 'Solicitar pedido'}
       </Modal.Header>
       <Modal.Content>
         <Form id="order-form" onSubmit={submit} className="ck-form" noValidate>
-          <Form.Field required>
-            <label htmlFor="order-product">Producto</label>
-            <Dropdown
-              id="order-product"
-              selection
-              options={PRODUCT_OPTIONS}
-              value={values.product}
-              onChange={set('product')}
-            />
-          </Form.Field>
-          <Form.Group widths="equal">
+          {fromCart ? (
+            <div className="ck-order-items">
+              <ul>
+                {items.map((item) => (
+                  <li key={item.uid}>
+                    <span>
+                      {item.name} <small>{itemSize(item)}</small>
+                    </span>
+                    <b>
+                      {CURRENCY}
+                      {itemPrice(item)}
+                    </b>
+                  </li>
+                ))}
+              </ul>
+              <p className="ck-order-items__total">
+                Total estimado
+                <b>
+                  {CURRENCY}
+                  {total}
+                </b>
+              </p>
+            </div>
+          ) : (
             <Form.Field required>
-              <label htmlFor="order-size">Tamaño</label>
-              <Dropdown id="order-size" selection options={SIZE_OPTIONS} value={values.size} onChange={set('size')} />
+              <label htmlFor="order-product">Producto</label>
+              <Dropdown
+                id="order-product"
+                selection
+                options={PRODUCT_OPTIONS}
+                value={values.product}
+                onChange={set('product')}
+              />
             </Form.Field>
+          )}
+          <Form.Group widths="equal">
+            {!fromCart && (
+              <Form.Field required>
+                <label htmlFor="order-size">Tamaño</label>
+                <Dropdown id="order-size" selection options={SIZE_OPTIONS} value={values.size} onChange={set('size')} />
+              </Form.Field>
+            )}
             <Form.Field required error={touched && !values.date}>
               <label htmlFor="order-date">Fecha de entrega</label>
               <Input id="order-date" type="date" value={values.date} onChange={set('date')} />

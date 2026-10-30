@@ -1,0 +1,358 @@
+/* ---------- Cart: navbar button, side panel, size chips, checkout list ---------- */
+
+.navbar__cart {
+  position: relative;
+  color: var(--cream);
+}
+
+.navbar__cart:hover {
+  transform: none;
+  background: rgb(251 244 208 / 0.12);
+}
+
+.navbar__cart-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--pink);
+  color: var(--red-dark);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+/* ---------- panel ---------- */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgb(92 1 1 / 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.cart-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 91;
+  display: flex;
+  flex-direction: column;
+  width: min(440px, 100%);
+  isolation: isolate;
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  background: var(--cream);
+  color: var(--ink);
+  box-shadow: -30px 0 60px -30px rgb(0 0 0 / 0.5);
+}
+
+.cart-panel__grain {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  opacity: 0.18;
+  background-image: var(--grain);
+  pointer-events: none;
+}
+
+.cart-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 26px 26px 18px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.cart-panel__head h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+}
+
+.cart-panel__count {
+  display: grid;
+  place-items: center;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--red);
+  color: var(--cream);
+  font-size: 0.95rem;
+  letter-spacing: 0;
+}
+
+.cart-panel__close {
+  position: relative;
+  color: var(--red-dark);
+}
+
+.cart-panel__close span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 16px;
+  height: 1.5px;
+  background: currentColor;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.cart-panel__close span:last-child {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.cart-panel__list {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 8px 26px;
+}
+
+.cart-panel__empty {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 26px;
+  text-align: center;
+}
+
+.cart-panel__empty svg {
+  color: var(--red);
+}
+
+.cart-panel__empty p {
+  margin-bottom: 10px;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.cart-panel__foot {
+  padding: 20px 26px 26px;
+  border-top: 1px dashed var(--line);
+  background: var(--cream-warm);
+  border-radius: 0 0 0 var(--radius-lg);
+}
+
+.cart-panel__total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.cart-panel__total strong {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  letter-spacing: -0.05em;
+  color: var(--red);
+}
+
+.cart-panel__note {
+  margin-bottom: 16px;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.ui.button.ck-btn.cart-panel__checkout {
+  width: 100%;
+}
+
+.cart-panel__continue {
+  display: block;
+  margin: 10px auto 0;
+  padding: 6px;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* ---------- line ---------- */
+.cart-line {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 14px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.cart-line__thumb {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  overflow: hidden;
+  border-radius: 52% 48% 44% 56% / 46% 42% 58% 54%;
+  background: var(--red);
+  color: var(--cream);
+}
+
+.cart-line__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cart-line__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cart-line__head h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.cart-line__price {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--red);
+  white-space: nowrap;
+}
+
+.cart-line__details {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.cart-line__sizes,
+.detail__sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cart-line__sizes {
+  margin-top: 10px;
+}
+
+.cart-line__remove {
+  margin-top: 8px;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.cart-line__remove:hover {
+  color: var(--red);
+}
+
+/* ---------- size chips (Semantic Button) ---------- */
+.ui.button.ck-size {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  min-height: 44px;
+  margin: 0;
+  padding: 0.5em 0.9em;
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+  transition:
+    background-color 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+
+.ui.button.ck-size small {
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.ui.button.ck-size:hover,
+.ui.button.ck-size:focus {
+  background: color-mix(in oklab, var(--pink) 30%, transparent);
+  color: var(--ink);
+}
+
+.ui.button.ck-size.is-active,
+.ui.button.ck-size.is-active:hover {
+  border-color: var(--red-dark);
+  background: var(--red-dark);
+  color: var(--cream);
+}
+
+/* ---------- checkout list inside the order modal ---------- */
+.ck-order-items {
+  margin-bottom: 18px;
+  padding: 14px 18px;
+  border-radius: 18px;
+  background: var(--cream-warm);
+}
+
+.ck-order-items li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--line);
+}
+
+.ck-order-items small {
+  margin-left: 6px;
+  color: var(--ink-soft);
+}
+
+.ck-order-items__total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.ck-order-items__total b {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--red);
+}
+
+@media (max-width: 479px) {
+  .cart-panel {
+    border-radius: 0;
+  }
+
+  .cart-panel__foot {
+    border-radius: 0;
+  }
+}

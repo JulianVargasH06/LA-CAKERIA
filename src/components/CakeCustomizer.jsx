@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from 'motion/react'
 import { Button } from 'semantic-ui-react'
 import {
   DECORATIONS,
-  describeCake,
   FILLINGS,
   GLAZES,
   priceFor,
@@ -15,6 +14,7 @@ import { CURRENCY } from '../data/products'
 import { useInView } from '../hooks/useInView'
 import { useIsMobile, usePrefersReducedMotion } from '../hooks/useMediaQuery'
 import { hasWebGL } from '../hooks/webgl'
+import { useCart } from '../context/cart'
 import CakeFallback from './CakeFallback'
 import PriceStamp from './PriceStamp'
 import Reveal from './Reveal'
@@ -35,7 +35,8 @@ const GROUPS = [
  * Options change materials/colours and show or hide toppings — not the
  * cake's shape.
  */
-export default function CakeCustomizer({ onOrder }) {
+export default function CakeCustomizer() {
+  const cart = useCart()
   const [selection, setSelection] = useState(SIGNATURE_CAKE)
   const cake = useMemo(() => resolveCake(selection), [selection])
   const price = priceFor(selection)
@@ -134,9 +135,9 @@ export default function CakeCustomizer({ onOrder }) {
             <div className="custom__actions">
               <Button
                 className="ck-btn ck-btn--cream ck-btn--lg"
-                onClick={() => onOrder('Torta personalizada', describeCake(selection))}
+                onClick={() => cart.addCustomCake(selection)}
               >
-                Solicitar mi torta
+                Agregar al carrito
               </Button>
               <button type="button" className="custom__reset" onClick={() => setSelection(SIGNATURE_CAKE)}>
                 Volver a la receta de la casa
@@ -144,8 +145,8 @@ export default function CakeCustomizer({ onOrder }) {
             </div>
           </div>
           <p className="custom__note">
-            Precio de referencia calculado con las tarifas de ejemplo del proyecto; se confirma al
-            procesar tu solicitud.
+            Precio de referencia para 8 porciones, calculado con las tarifas de ejemplo del
+            proyecto. En el carrito puedes elegir otro tamaño; se confirma al procesar tu solicitud.
           </p>
         </div>
       </div>

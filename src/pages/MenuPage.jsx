@@ -5,7 +5,6 @@ import { Button, Dropdown, Icon, Input, Menu } from 'semantic-ui-react'
 import { FlowerIcon } from '../components/Icons'
 import PageHeader from '../components/PagePanel'
 import ProductCard from '../components/ProductCard'
-import { useOrder } from '../context/order'
 import { CATEGORIES, FEATURED_PRODUCTS, PRODUCTS } from '../data/products'
 
 const SORTS = [
@@ -33,7 +32,6 @@ const sorters = {
 
 /** "/menu" — full catalog with category filter, search and sorting. */
 export default function MenuPage() {
-  const openOrder = useOrder()
   // filters live in the URL (?categoria=&q=&orden=) so they survive back/forward and can be shared
   const [params, setParams] = useSearchParams()
   const category = params.get('categoria') ?? 'all'
@@ -149,7 +147,6 @@ export default function MenuPage() {
                     product={product}
                     index={PRODUCTS.indexOf(product)}
                     variant={VARIANTS[i % VARIANTS.length]}
-                    onOrder={openOrder}
                     headingLevel={2}
                   />
                 ))}

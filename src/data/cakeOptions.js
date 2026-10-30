@@ -50,6 +50,23 @@ export const DECORATIONS = {
 
 export const BASE_PRICE = 38
 
+/**
+ * Sizes for the custom cake. The configurator price is for 8 portions;
+ * other sizes scale it by `factor` (sample values — edit freely).
+ */
+export const CUSTOM_SIZES = [
+  { label: '6 porciones', factor: 0.8 },
+  { label: '8 porciones', factor: 1 },
+  { label: '12 porciones', factor: 1.4 },
+  { label: '20 porciones', factor: 2.2 },
+]
+export const CUSTOM_DEFAULT_SIZE = 1
+
+export function customSizes(selection) {
+  const base = priceFor(selection)
+  return CUSTOM_SIZES.map((s) => ({ label: s.label, price: Math.round(base * s.factor) }))
+}
+
 export const SIGNATURE_CAKE = {
   sponge: 'chocolate',
   filling: 'raspberry',

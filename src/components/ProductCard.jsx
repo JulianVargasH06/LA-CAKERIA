@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'motion/react'
 import { Link } from 'react-router'
 import { Button, Label } from 'semantic-ui-react'
+import { useCart } from '../context/cart'
 import { CURRENCY } from '../data/products'
 import { ArrowIcon } from './Icons'
 
@@ -11,7 +12,8 @@ import { ArrowIcon } from './Icons'
  * (feature | tall | wide | square) so the catalog never looks like a grid
  * of identical cards.
  */
-export default function ProductCard({ product, index, variant = 'square', onOrder, headingLevel = 3, ref }) {
+export default function ProductCard({ product, index, variant = 'square', headingLevel = 3, ref }) {
+  const cart = useCart()
   const HeadingTag = `h${headingLevel}`
   const [loaded, setLoaded] = useState(false)
   const number = String(index + 1).padStart(2, '0')
@@ -62,14 +64,16 @@ export default function ProductCard({ product, index, variant = 'square', onOrde
               {tag}
             </Label>
           ))}
-          <span className="product__unit">{product.unit}</span>
+          <span className="product__unit">
+            {product.unit} · {product.sizes.length === 1 ? '1 tamaño' : `${product.sizes.length} tamaños`}
+          </span>
         </div>
         <div className="product__actions">
           <Button as={Link} to={`/menu/${product.id}`} className="ck-btn ck-btn--link">
             Ver detalle
           </Button>
-          <Button className="ck-btn ck-btn--link" onClick={() => onOrder(product.name)}>
-            Pedir <ArrowIcon />
+          <Button className="ck-btn ck-btn--link" onClick={() => cart.addProduct(product)}>
+            Agregar al carrito <ArrowIcon />
           </Button>
         </div>
       </div>

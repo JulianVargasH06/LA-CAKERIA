@@ -1,20 +1,18 @@
 import CakeCustomizer from '../components/CakeCustomizer'
 import Reveal from '../components/Reveal'
-import { useOrder } from '../context/order'
 
 const STEPS = [
   { title: 'Elige', text: 'Combina bizcocho, relleno, cobertura y decoración. Gira la torta para verla desde todos los lados.' },
   { title: 'Revisa', text: 'Comprueba tu combinación y el precio estimado antes de enviarla.' },
-  { title: 'Solicita', text: 'Envía la solicitud con fecha y tamaño. Te confirmamos disponibilidad y precio final.' },
+  { title: 'Solicita', text: 'Agrégala al carrito, elige el tamaño y envía tu solicitud con la fecha. Te confirmamos disponibilidad y precio final.' },
 ]
 
 /** "/personaliza" — the full 3D configurator, moved here from the landing page. */
 export default function PersonalizePage() {
-  const openOrder = useOrder()
   return (
     <>
       <title>Personaliza tu torta — La Cakería</title>
-      <CakeCustomizer onOrder={openOrder} />
+      <CakeCustomizer />
 
       <section className="sheet steps" aria-labelledby="steps-title">
         <div className="section__inner">

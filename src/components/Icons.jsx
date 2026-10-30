@@ -61,3 +61,10 @@ export const ArrowIcon = () => (
     <path d="M5 12h14M13 6l6 6-6 6" />
   </svg>
 )
+
+export const CartIcon = () => (
+  <svg {...base} width={20} height={20}>
+    <path d="M5 8h14l-1.3 10.2a2 2 0 0 1-2 1.8H8.3a2 2 0 0 1-2-1.8Z" />
+    <path d="M9 10V7a3 3 0 0 1 6 0v3" />
+  </svg>
+)

@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { Link, NavLink } from 'react-router'
 import { Button, Menu } from 'semantic-ui-react'
+import { useCart } from '../context/cart'
 import { NAV_LINKS, SITE } from '../data/site'
+import { CartIcon } from './Icons'
 
 export function Logo({ className = '' }) {
   return (
@@ -14,6 +16,35 @@ export function Logo({ className = '' }) {
 
 /** Route links use NavLink (adds .active + aria-current); anchors stay plain <a>. */
 const linkProps = (link) => (link.to ? { as: NavLink, to: link.to } : { as: 'a', href: link.href })
+
+function CartButton() {
+  const cart = useCart()
+  const count = cart.items.length
+  return (
+    <button
+      type="button"
+      className="ck-round navbar__cart"
+      aria-label={count ? `Abrir carrito, ${count} ${count === 1 ? 'producto' : 'productos'}` : 'Abrir carrito'}
+      onClick={cart.show}
+    >
+      <CartIcon />
+      <AnimatePresence>
+        {count > 0 && (
+          <motion.span
+            key={count}
+            className="navbar__cart-count"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            transition={{ type: 'spring', stiffness: 500, damping: 20 }}
+          >
+            {count}
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </button>
+  )
+}
 
 export default function Navbar({ onOrder }) {
   const [scrolled, setScrolled] = useState(false)
@@ -44,6 +75,7 @@ export default function Navbar({ onOrder }) {
         </Menu>
 
         <div className="navbar__actions">
+          <CartButton />
           <Button className="ck-btn ck-btn--cream navbar__order" onClick={() => onOrder()}>
             Hacer pedido
           </Button>

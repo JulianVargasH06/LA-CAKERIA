@@ -2,6 +2,8 @@ import { lazy, Suspense, useRef, useState } from 'react'
 import { motion } from 'motion/react'
 import { Link } from 'react-router'
 import { Button } from 'semantic-ui-react'
+import { useCart } from '../context/cart'
+import { getProduct } from '../data/products'
 import { useInView } from '../hooks/useInView'
 import { useIsMobile, usePrefersReducedMotion } from '../hooks/useMediaQuery'
 import { hasWebGL } from '../hooks/webgl'
@@ -74,7 +76,8 @@ function IngredientPill({ item, index, open, onToggle }) {
   )
 }
 
-export default function Hero({ onOrder }) {
+export default function Hero() {
+  const cart = useCart()
   const heroRef = useRef(null)
   const isMobile = useIsMobile()
   const reduced = usePrefersReducedMotion()
@@ -165,7 +168,7 @@ export default function Hero({ onOrder }) {
             <Button as={Link} to="/menu" className="ck-btn ck-btn--dark">
               Ver el menú <ArrowIcon />
             </Button>
-            <Button className="ck-btn ck-btn--outline" onClick={() => onOrder('Dark Chocolate Raspberry')}>
+            <Button className="ck-btn ck-btn--outline" onClick={() => cart.addProduct(getProduct('dark-chocolate-raspberry'))}>
               Pedir esta torta
             </Button>
           </motion.div>

@@ -1,12 +1,12 @@
-import { motion } from 'motion/react'
+import { useState } from 'react'
+import { AnimatePresence, motion } from 'motion/react'
 import { Link, useParams } from 'react-router'
 import { Button, Label } from 'semantic-ui-react'
-import { ArrowIcon } from '../components/Icons'
 import { PagePanel } from '../components/PagePanel'
 import ProductCard from '../components/ProductCard'
 import Reveal from '../components/Reveal'
-import { useOrder } from '../context/order'
-import { categoryLabel, CURRENCY, getProduct, ORDER_SIZES, PRODUCTS } from '../data/products'
+import { useCart } from '../context/cart'
+import { categoryLabel, CURRENCY, getProduct, PRODUCTS } from '../data/products'
 import NotFoundPage from './NotFoundPage'
 
 const EASE = [0.22, 1, 0.36, 1]
@@ -17,10 +17,16 @@ const EASE = [0.22, 1, 0.36, 1]
  */
 export default function ProductPage() {
   const { productId } = useParams()
-  const openOrder = useOrder()
   const product = getProduct(productId)
-
   if (!product) return <NotFoundPage />
+  // keyed so the selected size resets when moving to another product
+  return <ProductDetail key={product.id} product={product} />
+}
+
+function ProductDetail({ product }) {
+  const cart = useCart()
+  const [sizeIndex, setSizeIndex] = useState(product.defaultSize)
+  const size = product.sizes[sizeIndex]
 
   const related = PRODUCTS.filter((p) => p.id !== product.id)
     .sort((a, b) => Number(b.category === product.category) - Number(a.category === product.category))
@@ -37,10 +43,19 @@ export default function ProductPage() {
           transition={{ duration: 1, ease: EASE }}
         >
           <img src={product.image} alt={product.name} />
-          <span className="product__price detail__price">
-            <small>desde</small>
-            {CURRENCY}
-            {product.price}
+          <span className="product__price detail__price" aria-live="polite">
+            <small>{size.label}</small>
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.span
+                key={size.price}
+                initial={{ scale: 0.6, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                {CURRENCY}
+                {size.price}
+              </motion.span>
+            </AnimatePresence>
           </span>
         </motion.div>
 
@@ -77,18 +92,35 @@ export default function ProductPage() {
               </dd>
             </div>
             <div>
-              <dt>Tamaños al pedir</dt>
-              <dd>{ORDER_SIZES.join(' · ')}</dd>
+              <dt id="size-label">Tamaño</dt>
+              <dd className="detail__sizes" role="group" aria-labelledby="size-label">
+                {product.sizes.map((s, i) => (
+                  <Button
+                    key={s.label}
+                    type="button"
+                    className={`ck-size ck-size--light ${i === sizeIndex ? 'is-active' : ''}`}
+                    aria-pressed={i === sizeIndex}
+                    onClick={() => setSizeIndex(i)}
+                  >
+                    {s.label}
+                    <small>
+                      {CURRENCY}
+                      {s.price}
+                    </small>
+                  </Button>
+                ))}
+              </dd>
             </div>
           </dl>
           <p className="detail__note">
-            Precio de referencia. El precio final, los tamaños y la disponibilidad se confirman al
+            Precios de referencia por tamaño. El precio final y la disponibilidad se confirman al
             procesar tu solicitud.
           </p>
 
           <div className="detail__actions">
-            <Button className="ck-btn ck-btn--red ck-btn--lg" onClick={() => openOrder(product.name)}>
-              Solicitar este producto <ArrowIcon />
+            <Button className="ck-btn ck-btn--red ck-btn--lg" onClick={() => cart.addProduct(product, sizeIndex)}>
+              Agregar al carrito · {CURRENCY}
+              {size.price}
             </Button>
             <Button as={Link} to="/menu" className="ck-btn ck-btn--outline ck-btn--lg">
               Volver al menú
@@ -104,13 +136,7 @@ export default function ProductPage() {
           </Reveal>
           <div className="menu__grid">
             {related.map((p, i) => (
-              <ProductCard
-                key={p.id}
-                product={p}
-                index={PRODUCTS.indexOf(p)}
-                variant={['tall', 'square', 'blob'][i]}
-                onOrder={openOrder}
-              />
+              <ProductCard key={p.id} product={p} index={PRODUCTS.indexOf(p)} variant={['tall', 'square', 'blob'][i]} />
             ))}
           </div>
         </div>

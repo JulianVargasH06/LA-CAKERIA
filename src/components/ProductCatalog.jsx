@@ -8,7 +8,7 @@ import Reveal from './Reveal'
 const VARIANTS = ['blob', 'tall', 'square']
 
 /** Home page: featured products (same data source as /menu) + link to the full menu. */
-export default function ProductCatalog({ onOrder }) {
+export default function ProductCatalog() {
   return (
     <section className="catalog section" id="destacados" aria-labelledby="catalog-title">
       <div className="section__inner">
@@ -35,7 +35,6 @@ export default function ProductCatalog({ onOrder }) {
               product={product}
               index={PRODUCTS.indexOf(product)}
               variant={VARIANTS[i % VARIANTS.length]}
-              onOrder={onOrder}
             />
           ))}
 
