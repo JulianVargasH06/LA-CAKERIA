@@ -91,27 +91,11 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 16px;
   padding: 22px 0;
   border-top: 1px solid var(--line-light);
   font-size: 0.85rem;
-}
-
-.footer__bottom nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.footer__bottom a {
-  text-decoration: none;
-  opacity: 0.85;
-}
-
-.footer__bottom a:hover {
-  opacity: 1;
-  color: var(--pink);
 }
 
 .footer__wordmark {

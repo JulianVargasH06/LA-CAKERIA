@@ -5,7 +5,7 @@ import { ArrowIcon, FlowerIcon } from './Icons'
 import ProductCard from './ProductCard'
 import Reveal from './Reveal'
 
-const VARIANTS = ['feature', 'tall', 'square']
+const VARIANTS = ['blob', 'tall', 'square']
 
 /** Home page: featured products (same data source as /menu) + link to the full menu. */
 export default function ProductCatalog({ onOrder }) {
