@@ -16,6 +16,7 @@ import { useInView } from '../hooks/useInView'
 import { useIsMobile, usePrefersReducedMotion } from '../hooks/useMediaQuery'
 import { hasWebGL } from '../hooks/webgl'
 import CakeFallback from './CakeFallback'
+import PriceStamp from './PriceStamp'
 import Reveal from './Reveal'
 import SceneBoundary from './SceneBoundary'
 
@@ -61,6 +62,7 @@ export default function CakeCustomizer({ onOrder }) {
             <CakeFallback />
           )}
           {!isMobile && webgl && <p className="custom__hint">Arrastra para girar</p>}
+          <PriceStamp price={price} />
         </div>
 
         <div className="custom__panel">
@@ -113,7 +115,8 @@ export default function CakeCustomizer({ onOrder }) {
           </div>
 
           <div className="custom__summary">
-            <div>
+            {/* on desktop the price lives on the sticky 3D stage; this copy is for phones */}
+            <div className="custom__price-block">
               <span className="custom__price-label">Precio estimado</span>
               <AnimatePresence mode="popLayout" initial={false}>
                 <motion.span

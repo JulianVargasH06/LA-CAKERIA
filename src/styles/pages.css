@@ -289,6 +289,71 @@
     position: sticky;
     top: calc(66px + 24px);
   }
+
+  .custom--page .custom__summary {
+    justify-content: flex-end;
+  }
+
+  .custom--page .custom__price-block {
+    display: none;
+  }
+}
+
+/* price stamp pinned to the corner of the 3D cake */
+.price-stamp {
+  position: absolute;
+  top: 4%;
+  right: 2%;
+  z-index: 2;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  width: clamp(104px, 11vw, 140px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--cream);
+  color: var(--red-dark);
+  text-align: center;
+  transform: rotate(-8deg);
+  box-shadow: 0 22px 40px -20px rgb(0 0 0 / 0.6);
+  pointer-events: none;
+}
+
+.price-stamp::before {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  border: 1.5px dashed color-mix(in oklab, var(--red) 45%, transparent);
+  border-radius: 50%;
+}
+
+.price-stamp__label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.price-stamp__value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.2vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.price-stamp__delta {
+  position: absolute;
+  bottom: -10px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--pink);
+  color: var(--red-dark);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
 }
 
 .custom__step {
@@ -968,6 +1033,16 @@
   .custom__actions {
     align-items: stretch;
     width: 100%;
+  }
+
+  .price-stamp {
+    top: 2%;
+    right: 0;
+    width: 92px;
+  }
+
+  .price-stamp__value {
+    font-size: 1.7rem;
   }
 
   .about-gallery__grid {
