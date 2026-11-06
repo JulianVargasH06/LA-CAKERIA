@@ -1,17 +1,53 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
+import { Link, NavLink } from 'react-router'
 import { Button, Menu } from 'semantic-ui-react'
+import { useCart } from '../context/cart'
 import { NAV_LINKS, SITE } from '../data/site'
+import { CartIcon } from './Icons'
 
 export function Logo({ className = '' }) {
   return (
-    <a href="#inicio" className={`logo ${className}`} aria-label={`${SITE.name}, inicio`}>
+    <Link to="/" className={`logo ${className}`} aria-label={`${SITE.name}, inicio`}>
       la cakería<span className="logo__dot">.</span>
-    </a>
+    </Link>
   )
 }
 
-export default function Navbar({ onOrder }) {
+/** Route links use NavLink (adds .active + aria-current); anchors stay plain <a>. */
+const linkProps = (link) => (link.to ? { as: NavLink, to: link.to } : { as: 'a', href: link.href })
+
+function CartButton() {
+  const cart = useCart()
+  const count = cart.items.length
+  return (
+    <button
+      type="button"
+      className="ck-round navbar__cart"
+      aria-label={count ? `Abrir carrito, ${count} ${count === 1 ? 'producto' : 'productos'}` : 'Abrir carrito'}
+      onClick={cart.show}
+    >
+      <CartIcon />
+      <AnimatePresence>
+        {count > 0 && (
+          <motion.span
+            key={count}
+            className="navbar__cart-count"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            transition={{ type: 'spring', stiffness: 500, damping: 20 }}
+          >
+            {count}
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </button>
+  )
+}
+
+export default function Navbar() {
+  const cart = useCart()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -33,14 +69,15 @@ export default function Navbar({ onOrder }) {
 
         <Menu as="nav" secondary className="navbar__links" aria-label="Principal">
           {NAV_LINKS.map((link) => (
-            <Menu.Item key={link.href} as="a" href={link.href} className="navbar__link">
+            <Menu.Item key={link.label} {...linkProps(link)} className="navbar__link">
               {link.label}
             </Menu.Item>
           ))}
         </Menu>
 
         <div className="navbar__actions">
-          <Button className="ck-btn ck-btn--cream navbar__order" onClick={() => onOrder()}>
+          <CartButton />
+          <Button className="ck-btn ck-btn--cream navbar__order" onClick={cart.show}>
             Hacer pedido
           </Button>
           <button
@@ -66,24 +103,28 @@ export default function Navbar({ onOrder }) {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
             <nav aria-label="Menú móvil">
-              {NAV_LINKS.map((link, i) => (
-                <motion.a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.15 + i * 0.07 }}
-                >
-                  {link.label}
-                </motion.a>
-              ))}
+              {NAV_LINKS.map((link, i) => {
+                const Item = link.to ? NavLink : 'a'
+                const target = link.to ? { to: link.to } : { href: link.href }
+                return (
+                  <motion.div
+                    key={link.label}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 + i * 0.07 }}
+                  >
+                    <Item {...target} onClick={() => setOpen(false)}>
+                      {link.label}
+                    </Item>
+                  </motion.div>
+                )
+              })}
             </nav>
             <Button
               className="ck-btn ck-btn--red ck-btn--lg"
               onClick={() => {
                 setOpen(false)
-                onOrder()
+                cart.show()
               }}
             >
               Hacer pedido

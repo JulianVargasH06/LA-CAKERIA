@@ -245,6 +245,9 @@
 
 .ui.secondary.menu.ck-filter .item {
   margin: 0;
+  background: transparent;
+  font-size: 1rem;
+  cursor: pointer;
   padding: 0.7em 1.2em;
   border: 1.5px solid var(--line);
   border-radius: 999px;
@@ -338,87 +341,35 @@
   font-size: 1.02rem;
 }
 
-.ck-modal__summary {
-  margin: 0;
-  padding: 18px 20px;
-  border-radius: 18px;
-  background: var(--cream-warm);
-  font-family: var(--font-body);
-  font-size: 0.92rem;
-  white-space: pre-wrap;
-  color: var(--ink);
-}
-
-.ui.form.ck-form .field > label {
-  margin-bottom: 6px;
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.ui.form.ck-form .field .ui.input input,
-.ui.form.ck-form textarea,
-.ui.form.ck-form .ui.selection.dropdown {
-  min-height: 48px;
-  border: 1.5px solid var(--line);
-  border-radius: 16px;
-  background: #fffdf3;
-  color: var(--ink);
-  font-family: var(--font-body);
-  font-size: 1rem;
-}
-
-.ui.form.ck-form .ui.selection.dropdown {
+.ck-modal--received.ui.modal > .content {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 10px;
+  padding: 40px 32px 34px;
+  text-align: center;
 }
 
-.ui.form.ck-form .ui.selection.active.dropdown,
-.ui.form.ck-form .ui.selection.active.dropdown .menu {
-  border-color: var(--red);
+.ck-modal__icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  background: var(--red);
+  color: var(--cream);
 }
 
-.ui.form.ck-form .ui.selection.active.dropdown {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+.ck-modal__title {
+  font-size: clamp(2rem, 5vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  color: var(--red-dark);
 }
 
-.ui.form.ck-form .ui.selection.dropdown .menu {
-  border-radius: 0 0 16px 16px;
-  background: #fffdf3;
-}
-
-.ui.form.ck-form .ui.selection.dropdown .menu > .item {
-  color: var(--ink);
-  border-top-color: var(--line);
-}
-
-.ui.form.ck-form .ui.selection.dropdown .menu > .selected.item,
-.ui.form.ck-form .ui.selection.dropdown .menu > .item:hover {
-  background: color-mix(in oklab, var(--pink) 30%, transparent);
-}
-
-.ui.form.ck-form .field .ui.input input:focus,
-.ui.form.ck-form textarea:focus {
-  border-color: var(--red);
-  border-radius: 16px;
-}
-
-.ui.form.ck-form .field.required > label::after {
-  color: var(--red);
-}
-
-.ui.form.ck-form .field.error .ui.input input {
-  border-color: var(--red);
-  background: color-mix(in oklab, var(--pink) 18%, #fffdf3);
-  color: var(--ink);
-}
-
-.ck-form__error {
-  color: var(--red);
-  font-weight: 600;
-  font-size: 0.9rem;
+.ck-modal--received .ck-modal__lead {
+  margin-bottom: 14px;
 }
 
 @media (max-width: 767px) {
@@ -438,4 +389,75 @@
     flex: 1 1 100%;
     margin: 0 !important;
   }
+}
+
+/* ---------- Search input + sort dropdown (/menu) ---------- */
+.ui.input.ck-search {
+  min-width: min(280px, 100%);
+}
+
+.ui.input.ck-search > input {
+  min-height: 48px;
+  padding-left: 2.9em !important;
+  border: 1.5px solid var(--line);
+  border-radius: 999px !important;
+  background: #fffdf3;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+}
+
+.ui.input.ck-search > input:focus {
+  border-color: var(--red);
+}
+
+.ui.input.ck-search > .icon {
+  left: 0.4em !important;
+  color: var(--red);
+  opacity: 0.9;
+}
+
+.ui.selection.dropdown.ck-sort {
+  display: flex;
+  align-items: center;
+  min-width: 230px;
+  min-height: 48px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: #fffdf3;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.ui.selection.dropdown.ck-sort > .dropdown.icon {
+  top: 50%;
+  right: 1.1em;
+  padding: 0;
+  margin: 0;
+  transform: translateY(-50%);
+  opacity: 0.7;
+}
+
+.ui.selection.active.dropdown.ck-sort {
+  border-color: var(--red);
+  border-radius: 24px 24px 0 0;
+}
+
+.ui.selection.dropdown.ck-sort .menu {
+  border-color: var(--red);
+  border-radius: 0 0 24px 24px;
+  background: #fffdf3;
+}
+
+.ui.selection.dropdown.ck-sort .menu > .item {
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 500;
+  border-top-color: var(--line);
+}
+
+.ui.selection.dropdown.ck-sort .menu > .item:hover,
+.ui.selection.dropdown.ck-sort .menu > .selected.item {
+  background: color-mix(in oklab, var(--pink) 30%, transparent);
 }

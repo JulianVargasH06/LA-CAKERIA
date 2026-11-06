@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from 'motion/react'
 import { Button } from 'semantic-ui-react'
 import {
   DECORATIONS,
-  describeCake,
   FILLINGS,
   GLAZES,
   priceFor,
@@ -15,7 +14,9 @@ import { CURRENCY } from '../data/products'
 import { useInView } from '../hooks/useInView'
 import { useIsMobile, usePrefersReducedMotion } from '../hooks/useMediaQuery'
 import { hasWebGL } from '../hooks/webgl'
+import { useCart } from '../context/cart'
 import CakeFallback from './CakeFallback'
+import PriceStamp from './PriceStamp'
 import Reveal from './Reveal'
 import SceneBoundary from './SceneBoundary'
 
@@ -28,7 +29,14 @@ const GROUPS = [
   { key: 'decoration', title: 'Decoración', options: DECORATIONS },
 ]
 
-export default function CakeCustomizer({ onOrder }) {
+/**
+ * Full cake configurator (used by /personaliza). The 3D scene, options,
+ * colour easing and price rules are the same ones the landing used before.
+ * Options change materials/colours and show or hide toppings — not the
+ * cake's shape.
+ */
+export default function CakeCustomizer() {
+  const cart = useCart()
   const [selection, setSelection] = useState(SIGNATURE_CAKE)
   const cake = useMemo(() => resolveCake(selection), [selection])
   const price = priceFor(selection)
@@ -39,7 +47,7 @@ export default function CakeCustomizer({ onOrder }) {
   const webgl = hasWebGL()
 
   return (
-    <section className="custom section" id="personaliza" aria-labelledby="custom-title">
+    <section className="custom custom--page" aria-labelledby="custom-title">
       <div className="section__inner custom__inner">
         <div className="custom__stage" ref={stageRef}>
           <svg className="custom__blob" viewBox="0 0 600 600" aria-hidden="true">
@@ -55,20 +63,24 @@ export default function CakeCustomizer({ onOrder }) {
             <CakeFallback />
           )}
           {!isMobile && webgl && <p className="custom__hint">Arrastra para girar</p>}
+          <PriceStamp price={price} />
         </div>
 
         <div className="custom__panel">
           <Reveal as="p" className="eyebrow eyebrow--light">Taller de autor</Reveal>
-          <Reveal as="h2" className="display custom__title" id="custom-title" delay={0.05}>
+          <Reveal as="h1" className="display custom__title" id="custom-title" delay={0.05}>
             Diseña <em>tu</em> torta
           </Reveal>
           <Reveal as="p" className="custom__lead" delay={0.1}>
-            Elige cada capa y mira cómo cambia en 3D. Nosotros la horneamos.
+            Elige cada capa y mira cómo cambian sus colores y acabados en 3D. Nosotros la horneamos.
           </Reveal>
 
-          {GROUPS.map((group) => (
+          {GROUPS.map((group, i) => (
             <fieldset className="custom__group" key={group.key}>
-              <legend>{group.title}</legend>
+              <legend>
+                <span className="custom__step">{String(i + 1).padStart(2, '0')}</span>
+                {group.title}
+              </legend>
               <div className="custom__options">
                 {Object.entries(group.options).map(([key, option]) => {
                   const active = selection[group.key] === key
@@ -91,8 +103,21 @@ export default function CakeCustomizer({ onOrder }) {
             </fieldset>
           ))}
 
+          <div className="custom__review">
+            <h2 className="custom__review-title">Tu combinación</h2>
+            <dl className="custom__recap">
+              {GROUPS.map((group) => (
+                <div key={group.key}>
+                  <dt>{group.title}</dt>
+                  <dd>{group.options[selection[group.key]].label}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
           <div className="custom__summary">
-            <div>
+            {/* on desktop the price lives on the sticky 3D stage; this copy is for phones */}
+            <div className="custom__price-block">
               <span className="custom__price-label">Precio estimado</span>
               <AnimatePresence mode="popLayout" initial={false}>
                 <motion.span
@@ -107,13 +132,22 @@ export default function CakeCustomizer({ onOrder }) {
                 </motion.span>
               </AnimatePresence>
             </div>
-            <Button
-              className="ck-btn ck-btn--cream ck-btn--lg"
-              onClick={() => onOrder('Torta personalizada', describeCake(selection))}
-            >
-              Pedir mi torta
-            </Button>
+            <div className="custom__actions">
+              <Button
+                className="ck-btn ck-btn--cream ck-btn--lg"
+                onClick={() => cart.addCustomCake(selection)}
+              >
+                Agregar al carrito
+              </Button>
+              <button type="button" className="custom__reset" onClick={() => setSelection(SIGNATURE_CAKE)}>
+                Volver a la receta de la casa
+              </button>
+            </div>
           </div>
+          <p className="custom__note">
+            Precio de referencia para 8 porciones, calculado con las tarifas de ejemplo del
+            proyecto. En el carrito puedes elegir otro tamaño; se confirma al procesar tu solicitud.
+          </p>
         </div>
       </div>
     </section>
