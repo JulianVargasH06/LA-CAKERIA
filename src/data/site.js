@@ -31,6 +31,7 @@ export const SITE = {
 export const NAV_LINKS = [
   { to: '/menu', label: 'Menú' },
   { to: '/personaliza', label: 'Personaliza' },
+  { to: '/inspiracion', label: 'Inspiración' },
   { to: '/nosotros', label: 'Nuestra historia' },
   { href: '#contacto', label: 'Contacto' },
 ]

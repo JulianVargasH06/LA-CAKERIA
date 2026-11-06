@@ -322,3 +322,63 @@
     border-radius: 0;
   }
 }
+
+/* ---------- included drink (product page, cart, customizer) ---------- */
+.drink-picker {
+  margin-top: 12px;
+}
+
+.drink-picker__label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.drink-picker__label small {
+  margin-left: 4px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-soft);
+}
+
+.drink-picker__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.drink-picker--compact .drink-picker__label {
+  margin-bottom: 6px;
+  font-size: 0.62rem;
+}
+
+.drink-picker--compact .ui.button.ck-size {
+  min-height: 34px;
+  padding: 0.4em 0.75em;
+  font-size: 0.75rem;
+}
+
+.cart-line__drink {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--red-dark);
+}
+
+.detail__facts > .detail__drink {
+  display: block;
+}
+
+.custom__free {
+  margin-left: 0.5em;
+  font-size: 0.85em;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--pink);
+}

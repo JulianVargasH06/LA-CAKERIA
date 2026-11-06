@@ -15,7 +15,9 @@ import { useInView } from '../hooks/useInView'
 import { useIsMobile, usePrefersReducedMotion } from '../hooks/useMediaQuery'
 import { hasWebGL } from '../hooks/webgl'
 import { useCart } from '../context/cart'
+import { DEFAULT_DRINK, drinkName } from '../data/drinks'
 import CakeFallback from './CakeFallback'
+import DrinkPicker from './DrinkPicker'
 import PriceStamp from './PriceStamp'
 import Reveal from './Reveal'
 import SceneBoundary from './SceneBoundary'
@@ -38,6 +40,7 @@ const GROUPS = [
 export default function CakeCustomizer() {
   const cart = useCart()
   const [selection, setSelection] = useState(SIGNATURE_CAKE)
+  const [drink, setDrink] = useState(DEFAULT_DRINK)
   const cake = useMemo(() => resolveCake(selection), [selection])
   const price = priceFor(selection)
   const stageRef = useRef(null)
@@ -103,6 +106,14 @@ export default function CakeCustomizer() {
             </fieldset>
           ))}
 
+          <fieldset className="custom__group">
+            <legend>
+              <span className="custom__step">{String(GROUPS.length + 1).padStart(2, '0')}</span>
+              Bebida incluida <small className="custom__free">sin costo</small>
+            </legend>
+            <DrinkPicker value={drink} onChange={setDrink} chipClass="ck-chip" label={null} />
+          </fieldset>
+
           <div className="custom__review">
             <h2 className="custom__review-title">Tu combinación</h2>
             <dl className="custom__recap">
@@ -112,6 +123,10 @@ export default function CakeCustomizer() {
                   <dd>{group.options[selection[group.key]].label}</dd>
                 </div>
               ))}
+              <div>
+                <dt>Bebida</dt>
+                <dd>{drinkName(drink)}</dd>
+              </div>
             </dl>
           </div>
 
@@ -135,7 +150,7 @@ export default function CakeCustomizer() {
             <div className="custom__actions">
               <Button
                 className="ck-btn ck-btn--cream ck-btn--lg"
-                onClick={() => cart.addCustomCake(selection)}
+                onClick={() => cart.addCustomCake(selection, drink)}
               >
                 Agregar al carrito
               </Button>
