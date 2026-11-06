@@ -4,11 +4,13 @@ import { Link } from 'react-router'
 import { Button } from 'semantic-ui-react'
 import { cartTotal, itemPrice, useCart } from '../context/cart'
 import { CURRENCY } from '../data/products'
+import { drinkName } from '../data/drinks'
+import DrinkPicker from './DrinkPicker'
 import { ArrowIcon, FlowerIcon } from './Icons'
 
 const EASE = [0.22, 1, 0.36, 1]
 
-function CartLine({ item, onSize, onRemove }) {
+function CartLine({ item, onSize, onDrink, onRemove }) {
   return (
     <motion.li
       className="cart-line"
@@ -30,6 +32,7 @@ function CartLine({ item, onSize, onRemove }) {
           </span>
         </div>
         {item.details && <p className="cart-line__details">{item.details}</p>}
+        <p className="cart-line__drink">+ {drinkName(item.drink)}</p>
         <div className="cart-line__sizes" role="group" aria-label={`Tamaño de ${item.name}`}>
           {item.sizes.map((size, i) => (
             <Button
@@ -47,6 +50,7 @@ function CartLine({ item, onSize, onRemove }) {
             </Button>
           ))}
         </div>
+        <DrinkPicker value={item.drink} onChange={onDrink} compact />
         <button type="button" className="cart-line__remove" onClick={onRemove}>
           Quitar
         </button>
@@ -135,6 +139,7 @@ export default function CartPanel({ onConfirm }) {
                         key={item.uid}
                         item={item}
                         onSize={(sizeIndex) => cart.setSize(item.uid, sizeIndex)}
+                        onDrink={(drink) => cart.setDrink(item.uid, drink)}
                         onRemove={() => cart.remove(item.uid)}
                       />
                     ))}
@@ -150,8 +155,8 @@ export default function CartPanel({ onConfirm }) {
                     </strong>
                   </div>
                   <p className="cart-panel__note">
-                    Precios de referencia según el tamaño elegido; se confirman al procesar tu
-                    solicitud.
+                    Precios de referencia según el tamaño elegido. Cada producto incluye una
+                    bebida sin costo adicional.
                   </p>
                   <Button className="ck-btn ck-btn--red ck-btn--lg cart-panel__checkout" onClick={onConfirm}>
                     Confirmar pedido <ArrowIcon />

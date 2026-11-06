@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { Link, useParams } from 'react-router'
 import { Button, Label } from 'semantic-ui-react'
+import DrinkPicker from '../components/DrinkPicker'
 import { PagePanel } from '../components/PagePanel'
 import ProductCard from '../components/ProductCard'
 import Reveal from '../components/Reveal'
 import { useCart } from '../context/cart'
+import { DEFAULT_DRINK } from '../data/drinks'
 import { categoryLabel, CURRENCY, getProduct, PRODUCTS } from '../data/products'
 import NotFoundPage from './NotFoundPage'
 
@@ -26,6 +28,7 @@ export default function ProductPage() {
 function ProductDetail({ product }) {
   const cart = useCart()
   const [sizeIndex, setSizeIndex] = useState(product.defaultSize)
+  const [drink, setDrink] = useState(DEFAULT_DRINK)
   const size = product.sizes[sizeIndex]
 
   const related = PRODUCTS.filter((p) => p.id !== product.id)
@@ -111,14 +114,20 @@ function ProductDetail({ product }) {
                 ))}
               </dd>
             </div>
+            <div className="detail__drink">
+              <dt className="sr-only">Bebida</dt>
+              <dd>
+                <DrinkPicker value={drink} onChange={setDrink} />
+              </dd>
+            </div>
           </dl>
           <p className="detail__note">
-            Precios de referencia por tamaño. El precio final y la disponibilidad se confirman al
-            procesar tu solicitud.
+            Precios de referencia por tamaño. Incluye una bebida a elegir, sin costo adicional.
+            El precio final y la disponibilidad se confirman al procesar tu solicitud.
           </p>
 
           <div className="detail__actions">
-            <Button className="ck-btn ck-btn--red ck-btn--lg" onClick={() => cart.addProduct(product, sizeIndex)}>
+            <Button className="ck-btn ck-btn--red ck-btn--lg" onClick={() => cart.addProduct(product, sizeIndex, drink)}>
               Agregar al carrito · {CURRENCY}
               {size.price}
             </Button>

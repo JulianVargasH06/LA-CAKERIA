@@ -65,7 +65,8 @@ export default function ProductCard({ product, index, variant = 'square', headin
             </Label>
           ))}
           <span className="product__unit">
-            {product.unit} · {product.sizes.length === 1 ? '1 tamaño' : `${product.sizes.length} tamaños`}
+            {product.unit} · {product.sizes.length === 1 ? '1 tamaño' : `${product.sizes.length} tamaños`} · incluye
+            bebida
           </span>
         </div>
         <div className="product__actions">

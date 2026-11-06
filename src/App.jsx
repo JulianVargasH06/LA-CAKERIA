@@ -15,6 +15,8 @@ const MenuPage = lazy(() => import('./pages/MenuPage'))
 const ProductPage = lazy(() => import('./pages/ProductPage'))
 const PersonalizePage = lazy(() => import('./pages/PersonalizePage'))
 const AboutPage = lazy(() => import('./pages/AboutPage'))
+const InspirationPage = lazy(() => import('./pages/InspirationPage'))
+const RecipePage = lazy(() => import('./pages/RecipePage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 /** Site layout shared by every route: navbar, page content, footer, cart and confirmation. */
@@ -26,9 +28,11 @@ export default function App() {
   const cart = useMemo(
     () => ({
       ...cartState,
-      addProduct: (product, sizeIndex) => dispatch({ type: 'add', item: productItem(product, sizeIndex) }),
-      addCustomCake: (selection) => dispatch({ type: 'add', item: customCakeItem(selection) }),
+      addProduct: (product, sizeIndex, drink) =>
+        dispatch({ type: 'add', item: productItem(product, sizeIndex, drink) }),
+      addCustomCake: (selection, drink) => dispatch({ type: 'add', item: customCakeItem(selection, drink) }),
       setSize: (uid, sizeIndex) => dispatch({ type: 'size', uid, sizeIndex }),
+      setDrink: (uid, drink) => dispatch({ type: 'drink', uid, drink }),
       remove: (uid) => dispatch({ type: 'remove', uid }),
       clear: () => dispatch({ type: 'clear' }),
       open: cartState.open,
@@ -60,6 +64,8 @@ export default function App() {
               <Route path="menu" element={<MenuPage />} />
               <Route path="menu/:productId" element={<ProductPage />} />
               <Route path="personaliza" element={<PersonalizePage />} />
+              <Route path="inspiracion" element={<InspirationPage />} />
+              <Route path="inspiracion/:recipeId" element={<RecipePage />} />
               <Route path="nosotros" element={<AboutPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>

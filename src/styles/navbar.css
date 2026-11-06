@@ -197,3 +197,16 @@
     display: none;
   }
 }
+
+/* five links: tighten spacing on narrower desktops so nothing collides */
+@media (max-width: 1180px) and (min-width: 960px) {
+  .ui.secondary.menu.navbar__links .item.navbar__link {
+    padding: 0.5em 1em;
+    font-size: 0.9rem;
+  }
+
+  .ui.secondary.menu.navbar__links .item.navbar__link::after {
+    left: 1em;
+    right: 1em;
+  }
+}
