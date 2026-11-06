@@ -46,7 +46,8 @@ function CartButton() {
   )
 }
 
-export default function Navbar({ onOrder }) {
+export default function Navbar() {
+  const cart = useCart()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -76,7 +77,7 @@ export default function Navbar({ onOrder }) {
 
         <div className="navbar__actions">
           <CartButton />
-          <Button className="ck-btn ck-btn--cream navbar__order" onClick={() => onOrder()}>
+          <Button className="ck-btn ck-btn--cream navbar__order" onClick={cart.show}>
             Hacer pedido
           </Button>
           <button
@@ -123,7 +124,7 @@ export default function Navbar({ onOrder }) {
               className="ck-btn ck-btn--red ck-btn--lg"
               onClick={() => {
                 setOpen(false)
-                onOrder()
+                cart.show()
               }}
             >
               Hacer pedido

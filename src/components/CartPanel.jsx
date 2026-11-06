@@ -55,8 +55,8 @@ function CartLine({ item, onSize, onRemove }) {
   )
 }
 
-/** Side panel with the cart contents; "Finalizar pedido" hands off to the order modal. */
-export default function CartPanel({ onCheckout }) {
+/** Side panel with the cart contents; "Confirmar pedido" places the order. */
+export default function CartPanel({ onConfirm }) {
   const cart = useCart()
   const { items, open, close } = cart
   const closeRef = useRef(null)
@@ -153,8 +153,8 @@ export default function CartPanel({ onCheckout }) {
                     Precios de referencia según el tamaño elegido; se confirman al procesar tu
                     solicitud.
                   </p>
-                  <Button className="ck-btn ck-btn--red ck-btn--lg cart-panel__checkout" onClick={onCheckout}>
-                    Finalizar pedido <ArrowIcon />
+                  <Button className="ck-btn ck-btn--red ck-btn--lg cart-panel__checkout" onClick={onConfirm}>
+                    Confirmar pedido <ArrowIcon />
                   </Button>
                   <button type="button" className="cart-panel__continue" onClick={cart.close}>
                     Seguir comprando

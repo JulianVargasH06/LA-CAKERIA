@@ -68,23 +68,65 @@
 
 .catalog__grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(36px, 4vw, 56px) clamp(18px, 2.5vw, 36px);
-  align-items: start;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(24px, 3vw, 40px) clamp(14px, 2vw, 26px);
+  align-items: stretch;
 }
 
-/* light stagger keeps the editorial rhythm without large gaps */
-.catalog__grid > .product:nth-child(2) {
-  margin-top: clamp(0px, 3vw, 48px);
+/* compact cards: the three favourites + the menu tile fit in one row */
+.catalog__grid .product .product__media {
+  margin-bottom: 16px;
 }
 
-/* same photo proportions so every product reads at the same size */
 .catalog__grid .product .product__media img {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1;
 }
 
-.catalog__grid > .catalog__more {
-  grid-column: 1 / -1;
+.catalog__grid .product .product__price {
+  bottom: -8px;
+  width: clamp(62px, 5.5vw, 76px);
+  font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+}
+
+.catalog__grid .product .product__price small {
+  font-size: 0.5rem;
+}
+
+.catalog__grid .product .product__index {
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+}
+
+.catalog__grid .product .product__tagline {
+  margin-bottom: 4px;
+  font-size: 0.66rem;
+}
+
+.catalog__grid .product .product__name {
+  margin-bottom: 8px;
+  font-size: clamp(1.2rem, 1.7vw, 1.55rem);
+}
+
+.catalog__grid .product .product__desc {
+  display: -webkit-box;
+  margin-bottom: 8px;
+  overflow: hidden;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.catalog__grid .product .product__meta {
+  display: none;
+}
+
+.catalog__grid .product .product__actions {
+  gap: 0 16px;
+}
+
+.catalog__grid .ui.button.ck-btn--link {
+  font-size: 0.88rem;
 }
 
 /* ---------- product ---------- */
@@ -277,10 +319,6 @@
   .catalog__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .catalog__grid > .product:nth-child(2) {
-    margin-top: 0;
-  }
 }
 
 @media (max-width: 767px) {
@@ -288,8 +326,19 @@
     padding: 14px 0;
   }
 
+  /* phones keep two compact columns so the favourites stay visible together */
   .catalog__grid {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 12px;
+  }
+
+  .catalog__grid .product .product__desc,
+  .catalog__grid .product .product__index {
+    display: none;
+  }
+
+  .catalog__grid .product .product__name {
+    font-size: 1.1rem;
   }
 
 

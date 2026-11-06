@@ -1,10 +1,12 @@
 import { Button, Icon } from 'semantic-ui-react'
+import { useCart } from '../context/cart'
 import { SITE } from '../data/site'
 import { ArrowIcon } from './Icons'
 import Reveal from './Reveal'
 
 /** Contact block + footer. All data comes from src/data/site.js. */
-export default function Footer({ onOrder }) {
+export default function Footer() {
+  const cart = useCart()
   const year = new Date().getFullYear()
 
   return (
@@ -16,7 +18,7 @@ export default function Footer({ onOrder }) {
             ¿Celebramos <em>juntos?</em>
           </Reveal>
           <Reveal delay={0.1}>
-            <Button className="ck-btn ck-btn--cream ck-btn--lg" onClick={() => onOrder()}>
+            <Button className="ck-btn ck-btn--cream ck-btn--lg" onClick={cart.show}>
               Solicitar pedido <ArrowIcon />
             </Button>
           </Reveal>

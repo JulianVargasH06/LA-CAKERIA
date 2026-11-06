@@ -4,7 +4,7 @@ import Reveal from '../components/Reveal'
 const STEPS = [
   { title: 'Elige', text: 'Combina bizcocho, relleno, cobertura y decoración. Gira la torta para verla desde todos los lados.' },
   { title: 'Revisa', text: 'Comprueba tu combinación y el precio estimado antes de enviarla.' },
-  { title: 'Solicita', text: 'Agrégala al carrito, elige el tamaño y envía tu solicitud con la fecha. Te confirmamos disponibilidad y precio final.' },
+  { title: 'Solicita', text: 'Agrégala al carrito, elige el tamaño y confirma tu pedido.' },
 ]
 
 /** "/personaliza" — the full 3D configurator, moved here from the landing page. */

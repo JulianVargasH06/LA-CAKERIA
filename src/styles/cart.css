@@ -1,4 +1,4 @@
-/* ---------- Cart: navbar button, side panel, size chips, checkout list ---------- */
+/* ---------- Cart: navbar button, side panel, size chips ---------- */
 
 .navbar__cart {
   position: relative;
@@ -311,40 +311,6 @@
   border-color: var(--red-dark);
   background: var(--red-dark);
   color: var(--cream);
-}
-
-/* ---------- checkout list inside the order modal ---------- */
-.ck-order-items {
-  margin-bottom: 18px;
-  padding: 14px 18px;
-  border-radius: 18px;
-  background: var(--cream-warm);
-}
-
-.ck-order-items li {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 6px 0;
-  border-bottom: 1px dashed var(--line);
-}
-
-.ck-order-items small {
-  margin-left: 6px;
-  color: var(--ink-soft);
-}
-
-.ck-order-items__total {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  font-weight: 600;
-}
-
-.ck-order-items__total b {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  color: var(--red);
 }
 
 @media (max-width: 479px) {

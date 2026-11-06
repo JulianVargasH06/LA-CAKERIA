@@ -119,6 +119,3 @@ export const FEATURED_PRODUCTS = PRODUCTS.filter((p) => p.featured)
 export const getProduct = (id) => PRODUCTS.find((p) => p.id === id)
 
 export const categoryLabel = (key) => CATEGORIES.find((c) => c.key === key)?.label ?? key
-
-/** Portion sizes offered in the general order form (no product chosen). */
-export const ORDER_SIZES = ['6 porciones', '8 porciones', '12 porciones', '20 porciones']
