@@ -8,7 +8,8 @@ import ProductCard from '../components/ProductCard'
 import Reveal from '../components/Reveal'
 import { useCart } from '../context/cart'
 import { DEFAULT_DRINK } from '../data/drinks'
-import { categoryLabel, CURRENCY, getProduct, PRODUCTS } from '../data/products'
+import { categoryLabel, getProduct, PRODUCTS } from '../data/products'
+import { formatCOP, formatCOPAmount } from '../utils/currency'
 import NotFoundPage from './NotFoundPage'
 
 const EASE = [0.22, 1, 0.36, 1]
@@ -55,10 +56,10 @@ function ProductDetail({ product }) {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                {CURRENCY}
-                {size.price}
+                {formatCOPAmount(size.price)}
               </motion.span>
             </AnimatePresence>
+            <small>COP</small>
           </span>
         </motion.div>
 
@@ -106,10 +107,7 @@ function ProductDetail({ product }) {
                     onClick={() => setSizeIndex(i)}
                   >
                     {s.label}
-                    <small>
-                      {CURRENCY}
-                      {s.price}
-                    </small>
+                    <small>{formatCOP(s.price)}</small>
                   </Button>
                 ))}
               </dd>
@@ -128,8 +126,7 @@ function ProductDetail({ product }) {
 
           <div className="detail__actions">
             <Button className="ck-btn ck-btn--red ck-btn--lg" onClick={() => cart.addProduct(product, sizeIndex, drink)}>
-              Agregar al carrito · {CURRENCY}
-              {size.price}
+              Agregar al carrito · {formatCOP(size.price)}
             </Button>
             <Button as={Link} to="/menu" className="ck-btn ck-btn--outline ck-btn--lg">
               Volver al menú

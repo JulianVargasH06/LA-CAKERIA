@@ -3,7 +3,7 @@ import { motion } from 'motion/react'
 import { Link } from 'react-router'
 import { Button, Label } from 'semantic-ui-react'
 import { useCart } from '../context/cart'
-import { CURRENCY } from '../data/products'
+import { formatCOPAmount } from '../utils/currency'
 import { ArrowIcon } from './Icons'
 
 /**
@@ -46,8 +46,8 @@ export default function ProductCard({ product, index, variant = 'square', headin
         />
         <span className="product__price">
           <small>desde</small>
-          {CURRENCY}
-          {product.price}
+          <span className="price-amount">{formatCOPAmount(product.price)}</span>
+          <small>COP</small>
         </span>
       </Link>
 

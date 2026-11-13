@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { CURRENCY } from '../data/products'
+import { formatCOP, formatCOPAmount } from '../utils/currency'
 
 /**
  * Circular price stamp pinned to the corner of the 3D stage. It pops on
- * every change and briefly shows the difference (+$4, −$3) so the effect of
+ * every change and briefly shows the difference (+$ 12.000 COP, −$ 10.000 COP) so the effect of
  * each option is easy to read.
  */
 export default function PriceStamp({ price }) {
@@ -25,10 +25,10 @@ export default function PriceStamp({ price }) {
           exit={{ scale: 1.25, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 420, damping: 22 }}
         >
-          {CURRENCY}
-          {price}
+          {formatCOPAmount(price)}
         </motion.span>
       </AnimatePresence>
+      <small className="price-stamp__cop">COP</small>
       <AnimatePresence>
         {delta !== 0 && (
           <motion.span
@@ -40,8 +40,7 @@ export default function PriceStamp({ price }) {
             transition={{ duration: 0.35 }}
           >
             {delta > 0 ? '+' : '−'}
-            {CURRENCY}
-            {Math.abs(delta)}
+            {formatCOP(Math.abs(delta))}
           </motion.span>
         )}
       </AnimatePresence>

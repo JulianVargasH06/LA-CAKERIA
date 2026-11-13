@@ -3,8 +3,8 @@ import { AnimatePresence, motion } from 'motion/react'
 import { Link } from 'react-router'
 import { Button } from 'semantic-ui-react'
 import { cartTotal, itemPrice, useCart } from '../context/cart'
-import { CURRENCY } from '../data/products'
 import { drinkName } from '../data/drinks'
+import { formatCOP, formatCOPAmount } from '../utils/currency'
 import DrinkPicker from './DrinkPicker'
 import { ArrowIcon, FlowerIcon } from './Icons'
 
@@ -26,10 +26,7 @@ function CartLine({ item, onSize, onDrink, onRemove }) {
       <div className="cart-line__body">
         <div className="cart-line__head">
           <h3>{item.name}</h3>
-          <span className="cart-line__price">
-            {CURRENCY}
-            {itemPrice(item)}
-          </span>
+          <span className="cart-line__price">{formatCOP(itemPrice(item))}</span>
         </div>
         {item.details && <p className="cart-line__details">{item.details}</p>}
         <p className="cart-line__drink">+ {drinkName(item.drink)}</p>
@@ -43,10 +40,7 @@ function CartLine({ item, onSize, onDrink, onRemove }) {
               onClick={() => onSize(i)}
             >
               {size.label}
-              <small>
-                {CURRENCY}
-                {size.price}
-              </small>
+              <small>{formatCOP(size.price)}</small>
             </Button>
           ))}
         </div>
@@ -150,8 +144,7 @@ export default function CartPanel({ onConfirm }) {
                   <div className="cart-panel__total">
                     <span>Total estimado</span>
                     <strong>
-                      {CURRENCY}
-                      {total}
+                      {formatCOPAmount(total)} <small>COP</small>
                     </strong>
                   </div>
                   <p className="cart-panel__note">

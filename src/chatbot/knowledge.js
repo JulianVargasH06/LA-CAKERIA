@@ -6,10 +6,11 @@
  */
 import { BASE_PRICE, CUSTOM_SIZES, DECORATIONS, FILLINGS, GLAZES, SPONGES } from '../data/cakeOptions'
 import { DRINKS, drinkName } from '../data/drinks'
-import { CATEGORIES, CURRENCY, PRODUCTS } from '../data/products'
+import { CATEGORIES, PRODUCTS } from '../data/products'
 import { SITE } from '../data/site'
+import { formatCOP } from '../utils/currency'
 
-export { CATEGORIES, CURRENCY, DRINKS, drinkName, PRODUCTS, SITE }
+export { CATEGORIES, DRINKS, drinkName, PRODUCTS, SITE }
 
 /** Lower-case, no accents, no punctuation, single spaces. */
 export function normalize(text) {
@@ -78,7 +79,8 @@ export const priceRange = (p) => {
   return { min: Math.min(...prices), max: Math.max(...prices) }
 }
 
-export const money = (n) => `${CURRENCY}${n}`
+/** Same COP format as the rest of the site: 145000 → "$ 145.000 COP". */
+export const money = formatCOP
 
 /** Text used to match flavours against a product (only its real fields). */
 export const productText = (p) => normalize(`${p.name} ${p.tagline} ${p.description} ${p.tags.join(' ')} ${p.unit}`)
@@ -120,7 +122,8 @@ export const CUSTOM = {
     { title: 'Cobertura', options: Object.values(GLAZES) },
     { title: 'Decoración', options: Object.values(DECORATIONS) },
   ],
-  sizes: CUSTOM_SIZES.map((s) => ({ label: s.label, price: Math.round(BASE_PRICE * s.factor) })),
+  // same rounding as customSizes() in the cart, so the chatbot never quotes a different price
+  sizes: CUSTOM_SIZES.map((s) => ({ label: s.label, price: Math.round((BASE_PRICE * s.factor) / 1000) * 1000 })),
 }
 
 export const DRINK_LIST = DRINKS.map((d) => drinkName(d.key))
@@ -136,20 +139,41 @@ const toNumber = (word) => (/^\d+$/.test(word) ? Number(word) : numberWords[word
 export function parsePeople(text) {
   const m =
     text.match(/ (\d+|[a-z]+) (personas|persona|invitados|comensales|porciones|personitas|ninos|adultos) /) ||
-    // "para 12", "somos doce" — but not "para una fiesta"
-    text.match(/ (?:para|somos|seremos|seriamos) (\d+|(?!una? )[a-z]+) /)
+    // "para 12", "somos doce" — but not "para una fiesta" nor money ("para 150 mil", "para 150 000")
+    text.match(/ (?:para|somos|seremos|seriamos) (\d+|(?!una? )[a-z]+) (?!mil |\d{3} |k )/)
   const n = m && toNumber(m[1])
   return n && n > 1 && n < 500 ? n : null
 }
 
-/** "menos de 30", "hasta $40", "presupuesto de 25", "maximo 20 dolares" → 30 / 40 / 25 / 20. */
+// an amount in pesos after normalize(): "150 000", "150000", "150 mil", "150k", "cincuenta mil"
+const AMOUNT = String.raw`(\d{1,3}(?: \d{3})+|\d+|[a-z]+)(?: ?(mil|k|lucas))?`
+const BUDGET_WORDS = '(?:menos de|hasta|maximo|max|no mas de|presupuesto de|presupuesto|por debajo de|tengo)'
+
+/**
+ * Budget in Colombian pesos: "menos de 150.000", "hasta $ 80.000", "presupuesto de 120 mil",
+ * "máximo 90k" → 150000 / 80000 / 120000 / 90000. A bare small number ("menos de 150") is read
+ * as thousands, since nothing in the catalog costs under $ 1.000.
+ */
 export function parseBudget(text) {
-  const m =
-    text.match(/ (?:menos de|hasta|maximo|max|no mas de|presupuesto de|presupuesto|por debajo de) \$? ?(\d+|[a-z]+)( [a-z]+)?/) ||
-    text.match(/ \$ ?(\d+)()/)
-  if (!m) return null
-  // "hasta 12 personas" is a number of people, not money
-  if (/^ (personas|persona|invitados|comensales|porciones)$/.test(m[2] ?? '')) return null
-  const n = toNumber(m[1])
-  return n && n > 0 ? n : null
+  const candidates = [
+    // "menos de 150 000", "presupuesto de 120 mil", "hasta $ 80 000"
+    ...text.matchAll(new RegExp(` ${BUDGET_WORDS} \\$? ?${AMOUNT}(?=( [a-z]+)?)`, 'g')),
+    // "$ 150 000"
+    ...text.matchAll(new RegExp(` \\$ ?${AMOUNT}()`, 'g')),
+  ].map((m) => ({ amount: m[1], unit: m[2], next: m[3], explicit: true }))
+  // "para 150 mil", "con 80 000" — only when it is clearly money (mil / k / 1.000 or more)
+  for (const m of text.matchAll(new RegExp(` (?:para|con) ${AMOUNT}(?=( [a-z]+)?)`, 'g'))) {
+    candidates.push({ amount: m[1], unit: m[2], next: m[3], explicit: false })
+  }
+
+  for (const { amount, unit, next, explicit } of candidates) {
+    // "hasta 12 personas" is a number of people, not money
+    if (/^ (personas|persona|invitados|comensales|porciones)$/.test(next ?? '')) continue
+    let n = /^\d/.test(amount) ? Number(amount.replace(/ /g, '')) : toNumber(amount)
+    if (!n) continue
+    if (!explicit && !unit && n < 1000) continue
+    if (unit || n < 1000) n *= 1000
+    return n
+  }
+  return null
 }
