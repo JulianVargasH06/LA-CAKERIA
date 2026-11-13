@@ -2,6 +2,7 @@ import { lazy, Suspense, useCallback, useMemo, useReducer, useState } from 'reac
 import { MotionConfig } from 'motion/react'
 import { Route, Routes } from 'react-router'
 import CartPanel from './components/CartPanel'
+import ChatWidget from './components/ChatWidget'
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 import OrderReceivedModal from './components/OrderReceivedModal'
@@ -73,6 +74,7 @@ export default function App() {
         </main>
         <Footer />
         <CartPanel onConfirm={confirmOrder} />
+        <ChatWidget />
         <OrderReceivedModal open={received} onClose={() => setReceived(false)} />
       </CartContext>
     </MotionConfig>
