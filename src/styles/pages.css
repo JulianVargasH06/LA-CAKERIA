@@ -308,7 +308,7 @@
   display: grid;
   place-content: center;
   justify-items: center;
-  width: clamp(104px, 11vw, 140px);
+  width: clamp(120px, 12vw, 150px);
   aspect-ratio: 1;
   border-radius: 50%;
   background: var(--cream);
@@ -335,10 +335,18 @@
   color: var(--red);
 }
 
+.price-stamp__cop {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--red);
+}
+
 .price-stamp__value {
   display: block;
   font-family: var(--font-display);
-  font-size: clamp(2rem, 3.2vw, 2.8rem);
+  font-size: clamp(1.25rem, 1.7vw, 1.55rem);
+  white-space: nowrap;
   font-weight: 800;
   letter-spacing: -0.05em;
   line-height: 1;
@@ -587,8 +595,9 @@
 .product__price.detail__price {
   right: 6%;
   bottom: 4%;
-  width: clamp(100px, 10vw, 132px);
-  font-size: clamp(1.8rem, 2.6vw, 2.3rem);
+  width: clamp(120px, 12vw, 150px);
+  font-size: clamp(1.2rem, 1.6vw, 1.5rem);
+  white-space: nowrap;
 }
 
 .detail__crumbs {
@@ -1038,11 +1047,11 @@
   .price-stamp {
     top: 2%;
     right: 0;
-    width: 92px;
+    width: 108px;
   }
 
   .price-stamp__value {
-    font-size: 1.7rem;
+    font-size: 1.1rem;
   }
 
   .about-gallery__grid {

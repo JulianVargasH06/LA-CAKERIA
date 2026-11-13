@@ -7,8 +7,6 @@
 const unsplash = (id, w = 900) =>
   `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=75`
 
-export const CURRENCY = '$'
-
 export const CATEGORIES = [
   { key: 'all', label: 'Todo' },
   { key: 'tortas', label: 'Tortas' },
@@ -24,10 +22,10 @@ const CATALOG = [
     description:
       'Bizcocho de cacao al 70 %, compota de frambuesa fresca y ganache brillante que cae por los bordes.',
     sizes: [
-      { label: '6 porciones', price: 34 },
-      { label: '8 porciones', price: 42 },
-      { label: '12 porciones', price: 58 },
-      { label: '20 porciones', price: 88 },
+      { label: '6 porciones', price: 115000 },
+      { label: '8 porciones', price: 145000 },
+      { label: '12 porciones', price: 200000 },
+      { label: '20 porciones', price: 300000 },
     ],
     defaultSize: 1,
     unit: 'Torta entera',
@@ -42,10 +40,10 @@ const CATALOG = [
     tagline: 'Terciopelo clásico',
     description: 'Capas aterciopeladas de cacao suave con frosting de queso crema batido a mano.',
     sizes: [
-      { label: '6 porciones', price: 30 },
-      { label: '8 porciones', price: 38 },
-      { label: '12 porciones', price: 52 },
-      { label: '20 porciones', price: 80 },
+      { label: '6 porciones', price: 100000 },
+      { label: '8 porciones', price: 130000 },
+      { label: '12 porciones', price: 180000 },
+      { label: '20 porciones', price: 275000 },
     ],
     defaultSize: 1,
     unit: 'Torta entera',
@@ -60,9 +58,9 @@ const CATALOG = [
     tagline: 'Cremoso y horneado lento',
     description: 'Base de galleta tostada, relleno horneado a baja temperatura y coulis de frutos rojos.',
     sizes: [
-      { label: '6 porciones', price: 26 },
-      { label: '10 porciones', price: 36 },
-      { label: '16 porciones', price: 54 },
+      { label: '6 porciones', price: 90000 },
+      { label: '10 porciones', price: 125000 },
+      { label: '16 porciones', price: 185000 },
     ],
     defaultSize: 1,
     unit: 'Torta entera',
@@ -77,9 +75,9 @@ const CATALOG = [
     tagline: 'Caja de seis',
     description: 'Red velvet, cacao y vainilla con crema suave y migas crujientes. Ideales para regalar.',
     sizes: [
-      { label: 'Caja x6', price: 18 },
-      { label: 'Caja x12', price: 34 },
-      { label: 'Caja x24', price: 64 },
+      { label: 'Caja x6', price: 60000 },
+      { label: 'Caja x12', price: 115000 },
+      { label: 'Caja x24', price: 220000 },
     ],
     defaultSize: 0,
     unit: 'Caja para regalar',
@@ -93,8 +91,8 @@ const CATALOG = [
     tagline: 'Edición limitada',
     description: 'Masa sablée, crema pastelera de vainilla y la fruta más fresca de la semana.',
     sizes: [
-      { label: '8 porciones', price: 32 },
-      { label: '12 porciones', price: 44 },
+      { label: '8 porciones', price: 110000 },
+      { label: '12 porciones', price: 150000 },
     ],
     defaultSize: 0,
     unit: 'Tarta entera',
@@ -108,10 +106,10 @@ const CATALOG = [
     tagline: 'Para los más golosos',
     description: 'Capas de bizcocho de cacao con crema trufada de chocolate semiamargo y virutas por encima.',
     sizes: [
-      { label: '6 porciones', price: 32 },
-      { label: '8 porciones', price: 40 },
-      { label: '12 porciones', price: 56 },
-      { label: '20 porciones', price: 84 },
+      { label: '6 porciones', price: 110000 },
+      { label: '8 porciones', price: 140000 },
+      { label: '12 porciones', price: 195000 },
+      { label: '20 porciones', price: 290000 },
     ],
     defaultSize: 1,
     unit: 'Torta entera',
@@ -125,8 +123,8 @@ const CATALOG = [
     tagline: 'Torta individual',
     description: 'Nuestra red velvet en formato pequeño: dos capas aterciopeladas y frosting de queso crema.',
     sizes: [
-      { label: 'Unidad', price: 7 },
-      { label: 'Caja x4', price: 26 },
+      { label: 'Unidad', price: 20000 },
+      { label: 'Caja x4', price: 75000 },
     ],
     defaultSize: 0,
     unit: 'Individual',
@@ -140,8 +138,8 @@ const CATALOG = [
     tagline: 'Clásico italiano',
     description: 'Bizcochos de soletilla bañados en café, crema de mascarpone y cacao amargo espolvoreado.',
     sizes: [
-      { label: 'Porción', price: 8 },
-      { label: 'Molde 6 porciones', price: 30 },
+      { label: 'Porción', price: 18000 },
+      { label: 'Molde 6 porciones', price: 95000 },
     ],
     defaultSize: 0,
     unit: 'Postre frío',
@@ -155,8 +153,8 @@ const CATALOG = [
     tagline: 'Bocados de temporada',
     description: 'Masa quebrada crujiente, crema pastelera de vainilla y frutos rojos frescos glaseados.',
     sizes: [
-      { label: 'Caja x4', price: 16 },
-      { label: 'Caja x8', price: 30 },
+      { label: 'Caja x4', price: 48000 },
+      { label: 'Caja x8', price: 90000 },
     ],
     defaultSize: 0,
     unit: 'Caja para compartir',
@@ -170,8 +168,8 @@ const CATALOG = [
     tagline: 'Fresca y ácida',
     description: 'Crema de limón sedosa sobre masa sablée, decorada con rodajas de limón y frutos rojos.',
     sizes: [
-      { label: '8 porciones', price: 34 },
-      { label: '12 porciones', price: 46 },
+      { label: '8 porciones', price: 115000 },
+      { label: '12 porciones', price: 160000 },
     ],
     defaultSize: 0,
     unit: 'Tarta entera',
@@ -185,10 +183,10 @@ const CATALOG = [
     tagline: 'Especiada y húmeda',
     description: 'Bizcocho de zanahoria con canela y nueces, relleno y cubierto de frosting de queso crema.',
     sizes: [
-      { label: '6 porciones', price: 28 },
-      { label: '8 porciones', price: 36 },
-      { label: '12 porciones', price: 50 },
-      { label: '20 porciones', price: 76 },
+      { label: '6 porciones', price: 95000 },
+      { label: '8 porciones', price: 125000 },
+      { label: '12 porciones', price: 175000 },
+      { label: '20 porciones', price: 265000 },
     ],
     defaultSize: 1,
     unit: 'Torta entera',
@@ -202,8 +200,8 @@ const CATALOG = [
     tagline: 'Bocados franceses',
     description: 'Conchas de almendra crujientes por fuera y suaves por dentro, rellenas de ganache de frambuesa.',
     sizes: [
-      { label: 'Caja x6', price: 14 },
-      { label: 'Caja x12', price: 26 },
+      { label: 'Caja x6', price: 38000 },
+      { label: 'Caja x12', price: 72000 },
     ],
     defaultSize: 0,
     unit: 'Caja para regalar',
@@ -214,7 +212,8 @@ const CATALOG = [
 ]
 
 /**
- * `sizes` = sample price per size (edit freely); `defaultSize` = index preselected.
+ * `sizes` = sample price per size in Colombian pesos (COP), edit freely;
+ * `defaultSize` = index preselected. Prices are shown with formatCOP (src/utils/currency.js).
  * `price` is derived: the lowest size price, shown as "desde $X".
  */
 export const PRODUCTS = CATALOG.map((p) => ({

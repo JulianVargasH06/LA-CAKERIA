@@ -4,8 +4,9 @@ import { Link } from 'react-router'
 import { Button, Input } from 'semantic-ui-react'
 import { reply, welcomeMessage } from '../chatbot/engine'
 import { useCart } from '../context/cart'
-import { CURRENCY, getProduct } from '../data/products'
+import { getProduct } from '../data/products'
 import { useIsMobile, usePrefersReducedMotion } from '../hooks/useMediaQuery'
+import { formatCOP } from '../utils/currency'
 import { ChatIcon, FlowerIcon, RefreshIcon, SendIcon } from './Icons'
 
 const STORAGE_KEY = 'ck-chat-v1'
@@ -40,7 +41,7 @@ function ProductChip({ id, note, onNavigate, onAdd }) {
         <Link to={`/menu/${id}`} className="chat-product__name" onClick={onNavigate}>
           {product.name}
         </Link>
-        <span className="chat-product__note">{note || `desde ${CURRENCY}${from}`}</span>
+        <span className="chat-product__note">{note || `desde ${formatCOP(from)}`}</span>
         <div className="chat-product__actions">
           <Link to={`/menu/${id}`} onClick={onNavigate}>
             Ver producto

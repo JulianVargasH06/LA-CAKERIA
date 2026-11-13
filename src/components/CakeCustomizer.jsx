@@ -10,7 +10,7 @@ import {
   SIGNATURE_CAKE,
   SPONGES,
 } from '../data/cakeOptions'
-import { CURRENCY } from '../data/products'
+import { formatCOP } from '../utils/currency'
 import { useInView } from '../hooks/useInView'
 import { useIsMobile, usePrefersReducedMotion } from '../hooks/useMediaQuery'
 import { hasWebGL } from '../hooks/webgl'
@@ -142,8 +142,7 @@ export default function CakeCustomizer() {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: -20, opacity: 0 }}
                 >
-                  {CURRENCY}
-                  {price}
+                  {formatCOP(price)}
                 </motion.span>
               </AnimatePresence>
             </div>

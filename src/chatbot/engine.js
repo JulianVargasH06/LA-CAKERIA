@@ -403,7 +403,7 @@ const helpAnswer = () =>
       '• Contarte qué bebidas vienen incluidas.',
       '• Explicarte cómo hacer tu pedido o diseñar tu propia torta.',
     ],
-    { suggestions: ['¿Qué me recomiendas para regalar?', 'Tortas para 12 personas', 'Algo con chocolate por menos de $40'] },
+    { suggestions: ['¿Qué me recomiendas para regalar?', 'Tortas para 12 personas', 'Algo con chocolate por menos de $ 150.000'] },
   )
 
 function fallback(seed) {
