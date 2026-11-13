@@ -179,6 +179,38 @@ const CATALOG = [
     image: unsplash('1614174486496-344ef3e9d870'),
     tags: ['Limón', 'Frutos rojos'],
   },
+  {
+    id: 'torta-zanahoria',
+    name: 'Torta de zanahoria',
+    tagline: 'Especiada y húmeda',
+    description: 'Bizcocho de zanahoria con canela y nueces, relleno y cubierto de frosting de queso crema.',
+    sizes: [
+      { label: '6 porciones', price: 28 },
+      { label: '8 porciones', price: 36 },
+      { label: '12 porciones', price: 50 },
+      { label: '20 porciones', price: 76 },
+    ],
+    defaultSize: 1,
+    unit: 'Torta entera',
+    category: 'tortas',
+    image: unsplash('1676300186098-9b5ae9916e3c'),
+    tags: ['Nueces', 'Queso crema'],
+  },
+  {
+    id: 'macarons-frambuesa',
+    name: 'Macarons de frambuesa',
+    tagline: 'Bocados franceses',
+    description: 'Conchas de almendra crujientes por fuera y suaves por dentro, rellenas de ganache de frambuesa.',
+    sizes: [
+      { label: 'Caja x6', price: 14 },
+      { label: 'Caja x12', price: 26 },
+    ],
+    defaultSize: 0,
+    unit: 'Caja para regalar',
+    category: 'individuales',
+    image: unsplash('1698599620639-d4409e51ad82'),
+    tags: ['Almendra', 'Frambuesa'],
+  },
 ]
 
 /**
