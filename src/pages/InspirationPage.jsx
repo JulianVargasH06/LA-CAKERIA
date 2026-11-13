@@ -5,8 +5,10 @@ import { Button, Icon, Input } from 'semantic-ui-react'
 import { ApiEmpty, ApiError, ApiLoading } from '../components/ApiState'
 import PageHeader from '../components/PagePanel'
 import RecipeCard from '../components/RecipeCard'
+import TranslationNotice from '../components/TranslationNotice'
 import { useAsync } from '../hooks/useAsync'
 import { fetchDessertRecipes, MEALDB_SITE } from '../services/mealdb'
+import { hasSpanish, toSpanish, translateToSpanish } from '../services/translate'
 
 const PAGE_SIZE = 12
 const VARIANTS = ['blob', 'tall', 'square', 'tall']
@@ -19,19 +21,31 @@ const normalize = (text) =>
 
 /**
  * "/inspiracion" — dessert recipes loaded live from TheMealDB (external API).
- * They are ideas for inspiration, not products of the bakery.
+ * They are ideas for inspiration, not products of the bakery. Names and
+ * origins of the visible recipes are translated to Spanish on the fly.
  */
 export default function InspirationPage() {
   const recipes = useAsync(fetchDessertRecipes, 'desserts')
   const [params, setParams] = useSearchParams()
   const query = params.get('q') ?? ''
   const [limit, setLimit] = useState(PAGE_SIZE)
+  const [showOriginal, setShowOriginal] = useState(false)
 
+  // search matches the original name or its Spanish translation (once translated)
   const results = useMemo(() => {
     const q = normalize(query.trim())
     const list = recipes.data ?? []
-    return q ? list.filter((r) => normalize(r.name).includes(q)) : list
+    return q ? list.filter((r) => normalize(`${r.name} ${toSpanish(r.name)}`).includes(q)) : list
   }, [recipes.data, query])
+
+  // translate only what is on screen (12 at a time) to spend little of the free quota
+  const visible = results.slice(0, limit)
+  const translation = useAsync(
+    (signal) => translateToSpanish(visible.flatMap((r) => [r.name, r.area ?? '']), signal),
+    recipes.status === 'success' ? visible.map((r) => r.id).join(',') : 'pending',
+  )
+  const waitingFirstTranslation =
+    !showOriginal && translation.status === 'loading' && !visible.some((r) => hasSpanish(r.name))
 
   const search = (value) => {
     setLimit(PAGE_SIZE)
@@ -61,7 +75,7 @@ export default function InspirationPage() {
               <a href={MEALDB_SITE} target="_blank" rel="noreferrer">
                 TheMealDB
               </a>{' '}
-              · categoría <b>Dessert</b> · textos originales en inglés
+              · categoría <b>Dessert</b> · traducidas automáticamente del inglés
             </p>
             <Input
               className="ck-search"
@@ -88,7 +102,7 @@ export default function InspirationPage() {
                 title={query ? 'Sin coincidencias' : 'No hay recetas disponibles'}
                 text={
                   query
-                    ? `Ninguna receta de postre contiene “${query}”. Prueba con otra palabra (en inglés, como “cake” o “chocolate”).`
+                    ? `Ninguna receta de postre contiene “${query}”. Prueba con otra palabra, en español o en inglés (por ejemplo “chocolate”).`
                     : 'TheMealDB no devolvió recetas en este momento.'
                 }
               >
@@ -104,13 +118,27 @@ export default function InspirationPage() {
                   {results.length} {results.length === 1 ? 'receta' : 'recetas'}
                   {query ? ` para “${query}”` : ' de postres'}
                 </p>
-                <div className="recipes__grid">
-                  <AnimatePresence mode="popLayout">
-                    {results.slice(0, limit).map((recipe, i) => (
-                      <RecipeCard key={recipe.id} recipe={recipe} variant={VARIANTS[i % VARIANTS.length]} />
-                    ))}
-                  </AnimatePresence>
-                </div>
+                <TranslationNotice
+                  translation={translation}
+                  showOriginal={showOriginal}
+                  onToggle={() => setShowOriginal((v) => !v)}
+                />
+                {waitingFirstTranslation ? (
+                  <ApiLoading label="Traduciendo recetas al español…" />
+                ) : (
+                  <div className="recipes__grid">
+                    <AnimatePresence mode="popLayout">
+                      {visible.map((recipe, i) => (
+                        <RecipeCard
+                          key={recipe.id}
+                          recipe={recipe}
+                          spanish={!showOriginal}
+                          variant={VARIANTS[i % VARIANTS.length]}
+                        />
+                      ))}
+                    </AnimatePresence>
+                  </div>
+                )}
                 {results.length > limit && (
                   <div className="recipes__more">
                     <Button className="ck-btn ck-btn--outline ck-btn--lg" onClick={() => setLimit((n) => n + PAGE_SIZE)}>

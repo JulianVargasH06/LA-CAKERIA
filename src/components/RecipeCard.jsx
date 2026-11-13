@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'motion/react'
 import { Link } from 'react-router'
 import { recipeThumb } from '../services/mealdb'
+import { toSpanish } from '../services/translate'
 import { ArrowIcon } from './Icons'
 
 /**
@@ -9,9 +10,12 @@ import { ArrowIcon } from './Icons'
  * photo mask, editorial type) but clearly labelled as an external recipe and
  * without price or cart actions.
  */
-export default function RecipeCard({ recipe, variant = 'square', ref }) {
+export default function RecipeCard({ recipe, variant = 'square', spanish = true, ref }) {
   const [loaded, setLoaded] = useState(false)
   const to = `/inspiracion/${recipe.id}`
+  // translated text comes from the translation cache; falls back to the original
+  const name = spanish ? toSpanish(recipe.name) : recipe.name
+  const area = recipe.area && (spanish ? toSpanish(recipe.area) : recipe.area)
 
   return (
     <motion.article
@@ -35,9 +39,9 @@ export default function RecipeCard({ recipe, variant = 'square', ref }) {
         <span className="recipe__badge">TheMealDB</span>
       </Link>
       <div className="product__body">
-        <p className="product__tagline">{recipe.area ? `Receta · ${recipe.area}` : 'Receta externa'}</p>
-        <h2 className="product__name">
-          <Link to={to}>{recipe.name}</Link>
+        <p className="product__tagline">{area ? `Receta · ${area}` : 'Receta externa'}</p>
+        <h2 className="product__name" lang={spanish ? 'es' : 'en'}>
+          <Link to={to}>{name}</Link>
         </h2>
         <Link to={to} className="recipe__more">
           Ver receta <ArrowIcon />
