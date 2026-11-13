@@ -68,3 +68,23 @@ export const CartIcon = () => (
     <path d="M9 10V7a3 3 0 0 1 6 0v3" />
   </svg>
 )
+
+export const ChatIcon = () => (
+  <svg {...base} width={24} height={24}>
+    <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 4v-4h0A1.5 1.5 0 0 1 4 14.5Z" />
+    <path d="M8.5 9.5h.01M12 9.5h.01M15.5 9.5h.01" strokeWidth={2.4} />
+  </svg>
+)
+
+export const SendIcon = () => (
+  <svg {...base} width={18} height={18}>
+    <path d="M4 12 20 4l-4 16-4-7Z" />
+    <path d="m12 13 8-9" />
+  </svg>
+)
+
+export const RefreshIcon = () => (
+  <svg {...base} width={17} height={17}>
+    <path d="M4 12a8 8 0 0 1 13.7-5.6L20 8.7M20 4v4.7h-4.7M20 12a8 8 0 0 1-13.7 5.6L4 15.3M4 20v-4.7h4.7" />
+  </svg>
+)
